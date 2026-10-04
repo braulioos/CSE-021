@@ -1,0 +1,335 @@
+
+
+\documentclass[10pt,letterpaper,unboxed,cm]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+\newcommand{\st}{~\mid~}
+\newcommand{\ind}{$~~~~~$}
+
+
+
+
+\begin{document}
+
+\hfill{CSE 21 Fall 2026}
+
+\hfill{Homework 1 Practice Problems}
+
+
+\begin{center}
+\begin{minipage}[t]{5.7in}
+\rule{\linewidth}{2pt}
+{\sc Instructions}\newline
+
+Feel free to discuss these problems with classmates.
+
+
+{\sc Key Concepts} Product Rule, Power Rule, Permutations, Combinations
+
+(Note: For this homework, you can leave your answers in terms of exponentials, factorials, binomial coefficients, etc.)
+
+\rule{\linewidth}{2pt}
+\end{minipage} \hfill
+
+\end{center}
+
+\emph{(Note: for justifying counting arguments, a good rule of thumb is to explain how you came up with every term and factor of your answer. In most cases, it is more important to have your answer in terms of exponentials, factorials and binomial coefficients rather than have the exact numerical answer.)}
+
+\begin{enumerate}
+
+\item
+Use regular induction to show that for all $n\geq 0$ that
+
+$$\sum_{k=0}^n 2^k < 2^{n+1}$$
+\begin{quote}
+{\bf Solution:}
+
+{\bf Base case:} When $n=0$, then 
+
+$$\sum_{k=0}^n 2^k = 2^0 = 1$$ and $2^{0+1} = 2$ and $1<2$ so the base case holds for $n=0$.
+
+{\bf Induction Step:} Let $j$ be an arbitrary integer such that $j\geq 0$ and assume that 
+$$\sum_{k=0}^j 2^k < 2^{j+1}$$.
+
+(WTS that 
+$$\sum_{k=0}^{j+1} 2^k < 2^{j+2}$$
+
+$$\sum_{k=0}^{j+1} 2^k = \sum_{k=0}^{j} 2^k + 2^{j+1}$$
+$$<2^{j+1} + 2^{j+1} = 2^{j+2}$$
+...as desired.
+
+And so by induction, 
+$$\sum_{k=0}^n 2^k < 2^{n+1}$$
+is true for all $n\geq 0$.
+\end{quote}
+
+
+\item
+A password for a particular website is a string over the alphabet that contains uppercase letters (26), lowercase letters (26), digits (10) and special characters $\{!,@,\#,\$,\%,\&,*,?,=,+\}$ (10)
+(Explain your answers for each part.)
+\begin{enumerate}
+
+
+
+%(a)
+\item
+
+How many 8-character passwords start and end with a letter (not necessarily the same one and they can be uppercase or lowercase)?
+
+\begin{quote}
+{\bf Solution:}
+There are 26 choices for each of the first and last letter. Then there are 2 possibilities for the case of the first letter and 2 possibilities for the case of the second letter. Then the rest of the string is 6 characters that can be anything from the set of all 72 characters.
+
+$$(26^2)(2)(2)(72^6)$$
+\end{quote}
+
+
+
+%(b)
+\item
+
+How many 8-character passwords have at least one digit?
+\begin{quote}
+{\bf Solution:}
+There are $62^8$ 8-character passwords with no digits. Thus, the set we want is the complement of this set, we subtract this off from the $72^8$ total strings to get the number of passwords that have at least one digit.
+
+$$72^8-62^8$$
+\end{quote}
+
+
+
+
+
+
+%(d)
+\item
+
+How many 8 character passwords have exactly one uppercase letter?
+
+\begin{quote}
+{\bf Solution:}
+There are 26 choices and 8 positions for the exactly one uppercase letter. Then there are $26*8$ ways of arranging the uppercase letter. Then the rest of the string is 7 characters that can be anything but not uppercase letter from the set of 46 characters.
+$$8*26*46^7$$
+
+\end{quote}
+
+
+
+%(e)
+\item
+(3 points)
+How many 8 character passwords do not start with a uppercase letter but have at least one uppercase letter?
+
+e.g.: errTT68! or mAthMath or 1234567E
+\begin{quote}
+{\bf Solution:}
+
+Let's count with the complement but count the universe as passwords that don't start with an uppercase letter. There are: $46*72^7$ of these. Then there are $46^8$ passwords with no uppercase letters at all.
+
+All in all there are:
+
+$46*72^7-46^8$ passwords that do not start with an uppercase letter but have at least one uppercase letter.
+
+$$46*72^7-46^8$$
+\end{quote}
+
+
+
+
+
+
+
+%(g)
+\item
+
+How many 8-character passwords avoids having the word CSE101 (with any combination of upper and lowercase letters for CSE, i.e., avoiding CSE101, Cse101, csE101, ...)?
+
+\begin{quote}
+{\bf Solution:}
+
+The complement of this set is the set of all passwords that have an occurrence of CSE101. There are 3 positions you can start CSE101 from. Then there are 2 choices for the cases of C, S, and E for a total of $2^3=8$. Then there are $72^2$ possibilities for filling in the remaining 2 entries.
+
+Subtracting from all strings we get:
+
+$$72^8 - (3)(2^3)(72^2)$$
+\end{quote}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%(k)
+\item
+
+
+How many 8 character passwords three different characters with 3 copies of one 3 copies of another and 2 copies of the other?
+
+e.g. 4ww54545 or tt0TtT0T or e\$e\$???e
+\begin{quote}
+{\bf Solution:} There are $72$ ways to choose the first character with 3 copies, $71$ ways to choose the second character with 3 copies, and $70$ ways to choose the character with 2 copies. Then there are ${8\choose 3}$ ways to choose the positions of the first character, ${5\choose 3}$ ways to choose the positions of the second character, and the last character goes in the last two positions. Then we must divide by two since we have counted each such password twice because each character can be the first or the second.
+
+$$72*71*70*{8\choose 3}{5\choose 3}/2$$
+\end{quote}
+
+
+
+
+
+
+%(m)
+\item
+
+How many 8-character passwords are there such that the first 4 characters are 4 distinct digits in decreasing order and the remaining 4 digits are all special characters
+
+e.g.: 8320\$\$!@ or 9643?\%\#*, or 3210\&\&\&\&
+\begin{quote}
+{\bf Solution:}
+There are ${10\choose 4}$ ways of choosing the set of the
+first 4 digits. Once we choose this set, 
+there is only one way to put them in decreasing order. Then there are $10^4$ ways of choosing the last four special characters. All in all there are:
+
+$${10\choose 4}10^4$$
+\end{quote}
+
+\end{enumerate}
+% End of Questio
+\item
+Suppose you have a bag of 15 different candies and there are 5 different stockings that you can place them in.
+
+
+\begin{enumerate}
+
+
+
+%(a)
+\item (4 points)
+How many ways are there to place all 15 candies in the 5 stockings?
+(It could be the case that some stockings do not get filled or for all candies to be put into one stocking.)
+
+\begin{quote}
+{\bf Solution:}
+
+$5^{15}$
+
+For each of the 15 candies, there are 5 choices of stockings to put them in.
+\end{quote}
+
+
+
+%(b)
+\item 
+How many ways are there to place candies in the 5 stockings so that at least one candy is not placed in a stocking?
+
+\begin{quote}
+{\bf Solution:}
+
+$6^{15}-5^{15}$
+
+The total number of ways to place some subset of the 15 candies into the 5 stockings is $6^{15}$ (since you can count yourself as another stocking) then subtract of $5^{15}$ which is the number of ways to place all 15 candies into the 5 stockings.
+\end{quote}
+
+
+
+%(c)
+\item (4 points)
+How many ways can you place all 15 candies in the 5 stockings so that there is 1 candy in one stocking, 2 candies in another stocking, 3 candies in another stocking, 4 candies in another stocking and 5 candies in the last stocking?
+
+\begin{quote}
+{\bf Solution:}
+
+$5!*15!/(5!4!3!2!1!)$
+
+$5!$ ways to decide which stocking gets 1, which stocking gets 2 and so on. Then arrange the candies in any of $15!$ ways but each placement is counted $(5!4!3!2!1!)$ times because the order that you put the candies in the stockings does not matter.
+
+\end{quote}
+
+
+
+%(d)
+\item 
+How many ways can you place candies in the 5 stockings so that all stockings have the same number of candies? (you may or may not place all of the candies.)
+
+\begin{quote}
+{\bf Solution:}
+
+$$1 + {15\choose 5}*5! + {15\choose 10}*10!/(2^5) + 15!/(3!)^5$$
+
+They could all have 0 candies (1 way to do this.) They could all have 1 candy (${15\choose 5}*5!$, choose 5 of the candies and arrange them one in each stocking in $5!$ ways. They could all have 2 candies (${15\choose 10}*10!/(2^5)$, choose 10 of the candies and arrange them in $10!$ ways then divide by 2 for each stocking because the order you put the candies in the stockings does not matter. They could all have 3 candies ($15!/(3!^5)$, arrange the candies in $15!$ ways then divide by $3!$ for each stocking because the order you put the candies in the stockings does not matter.
+\end{quote}
+
+\end{enumerate}
+
+
+
+
+\item
+\begin{enumerate}
+\item
+
+
+How many anagrams are there of the word ANTARCTICA?
+
+\begin{quote}
+{\bf Solution:}
+
+$$10!/(3!2!2!)$$
+
+Using the formula for anagrams, there are 10 letters in ANTARCTICA so there are $10!$ ways to arrange them then there are 3 $A$s so divide by $3!$, there are 2 $T$s so divide by 2! and there are 2 $C$s so divide by 2! again.
+
+\end{quote}
+
+
+
+%(c)
+\item
+ How many different ways are there to arrange the letters in HIPPOPOTAMUS?
+
+\textbf{Solution:} 
+
+There are 12 characters in HIPPOPOTAMUS, 3 characters of P, 2 characters of O, and 1 character of each of HITAMUS:
+$$\frac{12!}{3!\,2!\,(1!)^7} = \frac{12!}{3!\,2!}$$
+
+
+
+%(d)
+\item
+
+How many ternary strings are there with exactly 12 zeros, 8 ones and 11 twos?
+
+\textbf{Solution: }
+
+$$\frac{(12+8+11)!}{12!\,8!\,11!} = \frac{31!}{12!\,8!\,11!}$$
+
+
+\item
+
+
+How many different ways are there to color the 12 \emph{vertices} of a hexagonal prism with 12 different colors?
+
+%\includegraphics[scale=0.4]{23-7.png}
+
+\begin{quote}
+{\bf Solution:}
+
+There are $12!$ ways of coloring the vertices of a stationary hexagonal prism. But each hexagonal prism has 12 orientations (6 rotational orientations for each of 2 flip orientations.) so the total number of ways to color the vertices is:
+
+$$12!/12$$
+\end{quote}
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+
+\end{document}
