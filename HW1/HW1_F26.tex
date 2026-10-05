@@ -57,8 +57,7 @@ your answer in terms of exponentials rather than compute the exact numerical val
 \item (6 points)
 Use regular induction to prove the following identity for all $n\geq 1$:
 
-$$2+5+6+8+\dots + 3n-1 = \frac{n(3n+1)}{2}$$
-
+$$2+5+8+\dots + 3n-1 = \frac{n(3n+1)}{2}$$
 
 \item (6 points)
 Use regular induction to prove the following identity for all $n\geq 1$:
@@ -75,26 +74,136 @@ A license plate is a string over the alphabet of 36 characters consisting of 26 
 
 \item
 (4 points)
-How many 7-character license plates have at least 2 numerals?
+How many 7-character license plates have at least 2 numerals? \\
+\textbf{Answer:}
+\[
+36^7 - \left(26^7 + \binom{7}{1}(10)(26^6)\right)
+\]
+
+\begin{itemize}
+    \item By the \textbf{Product Rule}, there are \(36^7\) total
+    7-character license plates, since there are 36 choices for each
+    of the 7 positions.
+
+    \item There are \(26^7\) plates with \textbf{0 numerals}, by the
+    \textbf{Product Rule}, since each of the 7 positions has 26 choices.
+
+    \item For plates with \textbf{exactly 1 numeral}:
+    \begin{itemize}
+        \item \(\binom{7}{1}\): choose the position of the numeral.
+        \item \(10\): choose the numeral (0--9).
+        \item \(26^6\): choose letters for the remaining 6 positions.
+    \end{itemize}
+    By the \textbf{Product Rule}, there are
+    \[
+    \binom{7}{1}(10)(26^6)
+    \]
+    such plates.
+
+    \item By the \textbf{Sum Rule}, the number of plates with fewer
+    than 2 numerals is
+    \[
+    26^7 + \binom{7}{1}(10)(26^6).
+    \]
+
+    \item By the \textbf{Complement Rule}, the number of plates with
+    at least 2 numerals is
+    \[
+    \boxed{36^7 - \left(26^7 + \binom{7}{1}(10)(26^6)\right)}.
+    \]
+\end{itemize}
 
 \item
 (4 points)
 How many 7-character license plates contain the word MILES as a consecutive substring?
 
+\textbf{Answer:}
+\[
+3(36^2)
+\]
+
+\begin{itemize}
+    \item The substring \texttt{MILES} has 5 characters, so in a
+    7-character license plate it can start in 3 possible positions:
+    positions 1, 2, or 3.
+
+    \item For each placement of \texttt{MILES}, there are 2 remaining
+    positions, each of which can contain any of the 36 characters.
+
+    \item By the \textbf{Product Rule}, the number of ways to fill the
+    remaining 2 positions is
+    \[
+    36 \cdot 36 = 36^2.
+    \]
+
+    \item By the \textbf{Sum Rule}, adding the \(36^2\) possibilities
+    for each of the 3 possible positions of \texttt{MILES} gives
+    \[
+    \boxed{3(36^2)}.
+    \]
+\end{itemize}
 
 \item
 (4 points)
 How many 7-character license plates consist of 3 different characters with 3 copies of one, 3 copies of another and a single copy of the last?
+\emph{Ex: AAA3331, P33T3TT, ...}\\
+\textbf{Answer:}
+\[
+\binom{36}{3} \cdot 3 \cdot \frac{7!}{3!3!1!}
+\]
 
-\emph{Ex: AAA3331, P33T3TT, ...}
+\begin{itemize}
+    \item \(\binom{36}{3}\): Choose the 3 distinct characters from the
+    36 possible characters.
 
+    \item \(3\): Choose which of the 3 characters appears only once.
+    The other two characters will each appear 3 times.
+
+    \item \(\frac{7!}{3!3!1!}\): Arrange the 7 characters. We divide
+    by \(3!\) for each group of 3 identical characters and by \(1!\)
+    for the single character.
+
+    \item By the \textbf{Product Rule}, multiplying these choices gives
+    \[
+    \boxed{\binom{36}{3} \cdot 3 \cdot \frac{7!}{3!3!1!}}.
+    \]
+\end{itemize}
 \item
 (4 points)
 How many 7-character license plates have exactly 3 different numerals and 4 copies of the same letter?
 
+\textbf{Answer:}
+\[
+\binom{10}{3} \cdot \binom{26}{1} \cdot \frac{7!}{4!}
+\]
+
+\begin{itemize}
+    \item \(\binom{10}{3}\): Choose the 3 different numerals from the
+    10 possible numerals.
+
+    \item \(\binom{26}{1}\): Choose the letter that appears 4 times
+    from the 26 possible letters.
+
+    \item \(\frac{7!}{4!}\): Arrange the 7 characters. We divide by
+    \(4!\) because the 4 copies of the letter are identical. The 3
+    numerals are different, so no further division is needed.
+
+    \item By the \textbf{Product Rule}, multiplying these choices gives
+    \[
+    \boxed{\binom{10}{3} \cdot \binom{26}{1} \cdot \frac{7!}{4!}}.
+    \]
+\end{itemize}
 \item
 (4 points)
 How many 7-character license plates are there that are all letters and they are in alphabetical order?
+
+\textbf{Answer:} There are 26 letters in the alphabet, and we must choose 7 distinct letters.
+Once the 7 letters are chosen, there is exactly one way to arrange them in
+alphabetical order. Therefore, the total number of license plates is
+
+\[
+\boxed{\binom{26}{7}}.
+\]
 
 \end{enumerate}
 
@@ -105,22 +214,110 @@ An art museum with 12 different rooms just got a shipment of 9 new paintings (\e
 (4 points)
 How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum?
 
+\textbf{Answer:}
+\[
+\boxed{12^9}
+\]
+
+There are \(9\) distinct paintings, and each painting can be placed in any of the \(12\) different rooms. Since there is no restriction on how many paintings can be placed in the same room, each painting independently has \(12\) choices. By the \textbf{Product Rule},
+
+\[
+\underbrace{12 \cdot 12 \cdot \ldots \cdot 12}_{9\text{ paintings}}
+= \boxed{12^9}.
+\]
+
 \item
 (4 points)
 How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum so that each painting is in a different room?
+
+\textbf{Answer:}
+\[
+\boxed{{}_{12}P_9 = \frac{12!}{(12-9)!} = \frac{12!}{3!}}
+\]
+
+There are \(9\) distinct paintings and \(12\) different rooms, with each painting required to be in a different room. The first painting has \(12\) choices, the second has \(11\), and so on, down to \(4\) choices for the ninth painting. By the \textbf{Product Rule},
+
+\[
+12 \cdot 11 \cdot 10 \cdots 4
+= {}_{12}P_9
+= \boxed{\frac{12!}{3!}}.
+\]
 
 \item
 (4 points)
 How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum so that at least one painting is in the biggest room and exactly one painting is in the smallest room?
 
+\textbf{Answer:} There are 9 choices for the painting placed in the smallest room.
+The remaining 8 paintings can each be placed in any of the remaining
+11 rooms, giving
+\[
+11^8
+\]
+
+arrangements. However, this includes arrangements in which no painting
+is placed in the biggest room. If the biggest room is also excluded,
+each of the 8 paintings has only 10 choices, giving
+
+\[
+10^8
+\]
+such arrangements. Therefore, by the \textbf{Complement Rule}, there are
+\[
+11^8 - 10^8
+\]
+
+ways to arrange the remaining paintings such that at least one is in
+the biggest room. By the \textbf{Product Rule}, the total number of
+arrangements is
+\[
+\boxed{9\left(11^8-10^8\right)}.
+\]
+
 \item
 (4 points)
 Paintings A,B, and C are all painted by the same artist. How many ways can the museum curator arrange all 9 paintings among the 12 rooms such that paintings A,B, and C are all in the same room?
+
+\textbf{Answer:} Paintings A, B, and C must all be placed in the same room. There are 12 choices for their common room. Each of the remaining 6 paintings
+can independently be placed in any of the 12 rooms, since there is no
+restriction on how many paintings may be placed in the same room.
+Therefore, by the \textbf{Product Rule}, the total number of
+arrangements is
+\[
+\boxed{12\cdot 12^6 = 12^7}.
+\]
+
 \item
 (4 points)
 How many ways can the museum curator arrange all 9 paintings in 3 of the 12 rooms such that each room has exactly 3 paintings? 
 
+\textbf{Answer:} First choose 3 of the 12 rooms to contain the paintings, which can be done in
+\[
+\binom{12}{3}
+\]
+ways. For the first chosen room, choose 3 of the 9 paintings. For the
+second chosen room, choose 3 of the remaining 6 paintings. The final
+3 paintings must go in the third room. Therefore, by the
 
+\textbf{Product Rule}, the total number of arrangements is
+
+\[
+\boxed{
+\binom{12}{3}
+\binom{9}{3}
+\binom{6}{3}
+\binom{3}{3}
+}.
+\]
+
+Since $\binom{3}{3}=1$, this can also be written as
+
+\[
+\boxed{
+\binom{12}{3}
+\binom{9}{3}
+\binom{6}{3}
+}.
+\]
 
 \end{enumerate}
 
@@ -140,7 +337,7 @@ INCLUSIONEXCLUSION
 
 How many different ways are there to color the 9 \emph{edges} of a triangular prism with 9 different colors (so that two colorings are considered the same if one can be oriented to look the same as the other one?)
 
-%\includegraphics[scale=0.5]{triangularprism}
+\includegraphics[scale=0.5]{triangularprism}
 
 
 \item
