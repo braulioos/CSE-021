@@ -1,0 +1,258 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{enumerate}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\newcommand{\st}{\~\mid\~}
+\newcommand{\ind}{$\~\~\~\~\~$}
+
+
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution.}\ }
+  {\par}
+
+\begin{document}
+
+\hfill{CSE 21 Fall 2026}
+
+\hfill{Homework 1}
+
+\hfill{Due date: Monday, October 5 at 11:59pm}
+
+\begin{center}
+\begin{minipage}[t]{5.7in}
+\rule{\linewidth}{2pt}
+{\sc Instructions}\newline
+
+This homework should be done in {\bf groups} of one to four students, without assistance from anyone besides the instructional staff and your group members.  Homework must be submitted through Gradescope by a {\bf single representative} of your group and received by {\bf 11:59pm} on the due date.\\
+
+
+Students should consult their textbook, class notes, lecture slides, podcasts, group members, instructors, TAs, and tutors when 
+they need help with homework. You may ask questions about the homework in office hours, but questions on Piazza should be private, visible only to instructors. 
+
+This assignment will be graded for not only the \emph{correctness} of your answers, but on your ability to present your ideas clearly and logically. You should explain or justify, present clearly how you arrived at your conclusions and justify the correctness of your answers with mathematically sound reasoning (unless explicitly told not to). Whether you use formal proof techniques or write a more informal argument for why something is true, your answers should always be well-supported. Your goal should be to {\bf convince the reader} that your results and methods are sound.
+
+
+
+
+
+
+{\sc Key Concepts} Induction, Product Rule, Sum Rule, Power Rule, Permutations.
+
+(Note: For this homework, you can leave your answers in terms of exponentials, factorials, binomial coefficients, etc.)
+
+\rule{\linewidth}{2pt}
+\end{minipage} \hfill
+
+\end{center}
+
+\emph{(Note: for justifying counting arguments, a good rule of thumb is to explain how you came up with every term and factor of your answer. You can leave
+your answer in terms of exponentials rather than compute the exact numerical value.)}
+
+\begin{enumerate}
+
+\item
+\begin{enumerate}
+\item (6 points)
+Use regular induction to prove the following identity for all $n\geq 1$:
+
+$$2+5+8+\dots + 3n-1 = \frac{n(3n+1)}{2}$$
+
+\begin{solution}
+Base case:
+\[
+2=\frac{1(3\cdot1+1)}{2}=\frac{4}{2}=2
+\]
+
+Let's assume the identity is true for some \(n=k\):
+\[
+2+5+8+\dots+(3k-1)=\frac{k(3k+1)}{2}.
+\]
+
+We will prove that the identity is true for \(n=k+1\).
+
+\begin{align*}
+2+5+8+\dots+(3k-1)+(3(k+1)-1)
+&= \frac{k(3k+1)}{2}+3k+2 \\
+&= \frac{k(3k+1)}{2}+\frac{6k+4}{2} \\
+&= \frac{3k^2+7k+4}{2} \\
+&= \boxed{\frac{(k+1)(3(k+1)+1)}{2}}.
+\end{align*}
+
+This is exactly the required formula for \(n=k+1\).
+Therefore, the identity holds for all \(n\geq1\) by induction.
+\qedsymbol
+
+\end{solution}
+
+\item (6 points)
+Use regular induction to prove the following identity for all $n\geq 1$:
+
+$$\prod_{k=1}^n (1 + \frac{1}{k}) = n+1$$
+
+\end{enumerate}
+
+\begin{solution}
+  Base case:
+  \[
+  (1+\frac{1}{1})=1+1=2
+  \]
+  Let's assume the identity is true for some value \(n=a\):
+  \[
+  \prod_{k=1}^a (1 + \frac{1}{k}) = a + 1
+  \]
+  We will prove that the identity is true for \(n=a+1\), a \(\geq\) 1:
+  \begin{align*}
+  \prod_{k=1}^{a+1} (1 + \frac{1}{k}) = \prod_{k=1}^{a} (1 + \frac{1}{k}) (1 + \frac{1}{a+1})
+  &= (a + 1)(1 + \frac{1}{a+1})\\
+  &= (a + \frac{a}{a+1} + 1 + \frac{1}{a+1})\\
+  &= (a + \frac{a+1}{a+1} + 1)\\
+  &= (a + 1 + 1) = \boxed{(a + 2)}
+  \end{align*}
+  Therefore, the identity holds by mathematical induction.
+\end{solution}
+
+\item
+A license plate is a string over the alphabet of 36 characters consisting of 26 uppercase latin letters and 10 numerals (0 through 9) (\emph{2 points for correct expression and 2 points for justification})
+
+\begin{enumerate}
+
+
+\item
+(4 points)
+How many 7-character license plates have at least 2 numerals?
+\\
+\item
+(4 points)
+How many 7-character license plates contain the word MILES as a consecutive substring?
+
+
+\item
+(4 points)
+How many 7-character license plates consist of 3 different characters with 3 copies of one, 3 copies of another and a single copy of the last?
+
+\emph{Ex: AAA3331, P33T3TT, ...}
+
+\item
+(4 points)
+How many 7-character license plates have exactly 3 different numerals and 4 copies of the same letter?
+
+\item
+(4 points)
+How many 7-character license plates are there that are all letters and they are in alphabetical order?
+
+\end{enumerate}
+
+\item
+An art museum with 12 different rooms just got a shipment of 9 new paintings (\emph{2 points for correct expression and 2 points for justification})
+\begin{enumerate}
+\item
+(4 points)
+How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum?
+
+\item
+(4 points)
+How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum so that each painting is in a different room?
+
+\item
+(4 points)
+How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum so that at least one painting is in the biggest room and exactly one painting is in the smallest room?
+
+\item
+(4 points)
+Paintings A,B, and C are all painted by the same artist. How many ways can the museum curator arrange all 9 paintings among the 12 rooms such that paintings A,B, and C are all in the same room?
+\item
+(4 points)
+How many ways can the museum curator arrange all 9 paintings in 3 of the 12 rooms such that each room has exactly 3 paintings? 
+
+
+
+\end{enumerate}
+
+
+
+
+\item
+(please include justification)
+\begin{enumerate}
+\item
+( 4 points)
+
+How many different ways are there to arrange the letters in the following string:\\ 
+INCLUSIONEXCLUSION
+
+\begin{solution}
+The string INCLUSIONEXCLUSION has 3 I's, 3 N's, 2 C's, 2 L's, 2 U's, 2 S's 2 O's, 1 E, and 1 X. 
+Therefore, the number of different ways to arrange the letters can be described like this:
+\begin{center}
+\boxed{
+\frac{18!}{(3!)^2*(2!)^5}
+}
+\end{center}
+\end{solution}
+
+\item
+(4 points)
+
+How many different ways are there to color the 9 \emph{edges} of a triangular prism with 9 different colors (so that two colorings are considered the same if one can be oriented to look the same as the other one?)
+
+% Self-contained replacement for the missing triangularprism image.
+\begin{center}
+\setlength{\unitlength}{1mm}
+\begin{picture}(65,42)
+\put(5,5){\line(1,0){30}}
+\put(5,5){\line(1,2){15}}
+\put(35,5){\line(-1,2){15}}
+\put(30,10){\line(1,0){30}}
+\put(30,10){\line(1,2){15}}
+\put(60,10){\line(-1,2){15}}
+\put(5,5){\line(5,1){25}}
+\put(35,5){\line(5,1){25}}
+\put(20,35){\line(5,1){25}}
+\end{picture}
+\end{center}
+
+
+\begin{solution}
+  Since there is 9 different colors to choose from we know that there are 9! ways to color the edges.
+  However we need to account for the fact that we can turn the prism and make it look like a prism we already accounted for.
+  To find how many ways we can turn the prism we can look at the top triangle and see that there are 3 ways to rotate it and 2 ways to flip it over. This means that there are 6 ways to rotate the prism.
+  Therefore the total number of ways to color the 9 edges of a triangular prism with 9 different colors is:
+  \begin{center}
+  \boxed{\frac{9!}{6}}
+  \end{center}
+\end{solution}
+
+\item
+(4 points)
+
+There are 18 different basketball players. How many ways can they organize themselves into 3 games each with 3 players versus 3 players?
+
+\begin{solution}
+  Let's split this problem into three games.\\
+  For the first game we can choose 6 players from 18 players.
+  \[
+    \binom{18}{6}=\frac{18!}{6!12!}
+  \]
+  For the second game we choose 6 players from the remaining 12 players.
+  \[
+    \binom{12}{6}=\frac{12!}{6!6!}
+  \]
+  For the third game we choose 6 players from the remaining 6 players.
+  \[
+    \binom{6}{6}=\frac{6!}{6!0!}
+  \]
+  Finally we add multiply the games together and divide by 3! to account for the fact that the order of games doesn't matter.
+  \begin{center}
+  \[
+    \frac{\frac{18!}{6!12!}*\frac{12!}{6!6!}*\frac{6!}{6!}}{3!}
+  \]
+  \end{center}
+\end{solution}
+
+\end{enumerate}
+\end{enumerate}
+\end{document}
