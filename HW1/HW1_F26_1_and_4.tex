@@ -153,22 +153,76 @@ An art museum with 12 different rooms just got a shipment of 9 new paintings (\e
 (4 points)
 How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum?
 
+\begin{solution}
+  If all paintings can be put into one room (no restriction on the painting location), we can arrange them in:
+  \begin{center}
+    $\boxed{12^9 \text{ ways.}}$
+  \end{center}
+  Because each painting can be put into one of the 12 rooms.
+\end{solution}
+
 \item
 (4 points)
 How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum so that each painting is in a different room?
+
+\begin{solution}
+   The number of paintings to choose from decreases as we assign them to rooms, so the number of ways we can arrange all of them comes down to be:
+  \begin{center}
+    $\boxed{12*11*10*\dots*4\text{ ways}}$
+  \end{center}
+\end{solution}
 
 \item
 (4 points)
 How many ways can the museum curator arrange all 9 paintings among the 12 rooms in the museum so that at least one painting is in the biggest room and exactly one painting is in the smallest room?
 
+\begin{solution}
+  We need to have one painting in the smallest room so we have 9 paintings to choose from, and the rest has 11 different rooms to be put into:
+  \begin{center}
+    $9*(11^8)$
+  \end{center}
+  But we want at least one in the largest room so we can find that by substracting all the ways when there is none in the biggest room from all the ways we can arrange them.\\
+  That leaves us with at least one painting in the biggest room:
+  \begin{center}
+    $\boxed{9*(11^8 - 10^8)}$
+  \end{center}
+\end{solution}
+
 \item
 (4 points)
 Paintings A,B, and C are all painted by the same artist. How many ways can the museum curator arrange all 9 paintings among the 12 rooms such that paintings A,B, and C are all in the same room?
+\begin{solution}
+  We take 3 paintings and put them in one of the 12 rooms:
+  \begin{center}
+    $12$
+  \end{center}
+  Then the rest of the paintings can go distribute in this many ways:
+  \begin{center}
+    $12^6$
+  \end{center}
+  So the total amount of ways to arrange all the paintings comes down to be:
+  \begin{center}
+    $\boxed{12*12^6\text{ ways}}$
+  \end{center}
+\end{solution}
 \item
 (4 points)
 How many ways can the museum curator arrange all 9 paintings in 3 of the 12 rooms such that each room has exactly 3 paintings? 
 
-
+\begin{solution}
+  We pick 3 rooms to put paintings into:
+  \begin{center}
+    $\binom{12}{3}$
+  \end{center}
+  Then we can pick which 3 paintings go into the first, second and third room:
+  \begin{center}
+    $\binom{9}{3} * \binom{6}{3} * \binom{3}{3}$
+  \end{center}
+  Finally, we combine the options and get the final answer:
+  \begin{center}
+    $\boxed{\binom{12}{3} * (\binom{9}{3} * \binom{6}{3} * \binom{3}{3})}$
+  \end{center}
+\end{solution}
 
 \end{enumerate}
 
@@ -245,12 +299,25 @@ There are 18 different basketball players. How many ways can they organize thems
   \[
     \binom{6}{6}=\frac{6!}{6!0!}
   \]
-  Finally we add multiply the games together and divide by 3! to account for the fact that the order of games doesn't matter.
+  We add multiply the games together and divide by 3! to account for the fact that the order of games doesn't matter.
   \begin{center}
   \[
     \frac{\frac{18!}{6!12!}*\frac{12!}{6!6!}*\frac{6!}{6!}}{3!}
   \]
   \end{center}
+    Finally, because we have a number of ways to arrange each team by choosing from the 6 players we account for it using the following:
+    \begin{center}
+    \[
+      \binom{6}{3}/2 = 10
+    \]
+    \end{center}
+We divide by 2 because switching the teams makes the same game. Also we need to acount for each game so we put it to the power of 3:
+\begin{center}
+  \[
+    \boxed{\frac{18!}{6!6!6!3!}*10^3}
+  \]
+\end{center}
+  
 \end{solution}
 
 \end{enumerate}
