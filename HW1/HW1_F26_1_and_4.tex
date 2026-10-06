@@ -4,10 +4,11 @@
 \usepackage{enumerate}
 
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
 
-\newcommand{\st}{\~\mid\~}
-\newcommand{\ind}{$\~\~\~\~\~$}
+\newcommand{\st}{\;\mid\;}
+\newcommand{\ind}{\hspace{2em}}
 
 
 \newenvironment{solution}
@@ -91,29 +92,28 @@ Therefore, the identity holds for all \(n\geq1\) by induction.
 \item (6 points)
 Use regular induction to prove the following identity for all $n\geq 1$:
 
-$$\prod_{k=1}^n (1 + \frac{1}{k}) = n+1$$
-
-\end{enumerate}
+$$\prod_{k=1}^n \left(1 + \frac{1}{k}\right) = n+1$$
 
 \begin{solution}
   Base case:
   \[
-  (1+\frac{1}{1})=1+1=2
+  \left(1+\frac{1}{1}\right)=1+1=2
   \]
   Let's assume the identity is true for some value \(n=a\):
   \[
-  \prod_{k=1}^a (1 + \frac{1}{k}) = a + 1
+  \prod_{k=1}^a \left(1 + \frac{1}{k}\right) = a + 1
   \]
-  We will prove that the identity is true for \(n=a+1\), a \(\geq\) 1:
+  We will prove that the identity is true for \(n=a+1\), \(a \geq 1\):
   \begin{align*}
-  \prod_{k=1}^{a+1} (1 + \frac{1}{k}) = \prod_{k=1}^{a} (1 + \frac{1}{k}) (1 + \frac{1}{a+1})
-  &= (a + 1)(1 + \frac{1}{a+1})\\
-  &= (a + \frac{a}{a+1} + 1 + \frac{1}{a+1})\\
-  &= (a + \frac{a+1}{a+1} + 1)\\
-  &= (a + 1 + 1) = \boxed{(a + 2)}
+  \prod_{k=1}^{a+1} \left(1 + \frac{1}{k}\right) = \prod_{k=1}^{a} \left(1 + \frac{1}{k}\right) \left(1 + \frac{1}{a+1}\right)
+  &= (a + 1)\left(1 + \frac{1}{a+1}\right)\\
+  &= a + \frac{a}{a+1} + 1 + \frac{1}{a+1}\\
+  &= a + \frac{a+1}{a+1} + 1\\
+  &= a + 1 + 1 = \boxed{a + 2}
   \end{align*}
   Therefore, the identity holds by mathematical induction.
 \end{solution}
+\end{enumerate}
 
 \item
 A license plate is a string over the alphabet of 36 characters consisting of 26 uppercase latin letters and 10 numerals (0 through 9) (\emph{2 points for correct expression and 2 points for justification})
@@ -136,15 +136,14 @@ How many 7-character license plates have at least 2 numerals?
 
     Now finding the number of possible positions with 1 numeral, first we find all the possible places where the numeral can be and then we multiply that by the choices of numerals which is 10. After that every remaining spot can be any letter so we get \(26^{6}\)
 
-    \[\binom{7}{1} * 10 * 26^{6}\]    
+    \[\binom{7}{1} \cdot 10 \cdot 26^{6}\]    
 
     Now if we subtract the number of plates without any numerals and with only 1 numeral we will be left with all plates that have at least 2 numerals
 
-    \[36^{7}-26^{7}- \binom{7}{1} * 10 * 26^{6}\]
+    \[36^{7}-26^{7}- \binom{7}{1} \cdot 10 \cdot 26^{6}\]
             
 \end{solution}
 
-\\
 \item
 (4 points)
 How many 7-character license plates contain the word MILES as a consecutive substring?
@@ -152,7 +151,7 @@ How many 7-character license plates contain the word MILES as a consecutive subs
 \begin{solution}
     The substring MILES can begin in any of the 3 positions in a 7 character plate since it takes up 5 positions. However the other 2 open positions will have 36 choices each so we get
 
-    \[3*36^{2}\]
+    \[3\cdot 36^{2}\]
 
 \end{solution}
 
@@ -169,13 +168,13 @@ How many 7-character license plates consist of 3 different characters with 3 cop
 
     The final position can contain any of the remaining \(34\), which gives us 
 
-    \[36* \binom{7}{3} * 35 * \binom{4}{3}* 34\]
+    \[36\cdot \binom{7}{3} \cdot 35 \cdot \binom{4}{3}\cdot 34\]
 
     However this counts every plate twice since both groups are the same size it doesn't matter which one we choose first.
 
     Thus we divide all by 2 
 
-    \[(36* \binom{7}{3} * 35 * \binom{4}{3}* 34)/2\]
+    \[\frac{36\cdot \binom{7}{3} \cdot 35 \cdot \binom{4}{3}\cdot 34}{2}\]
 \end{solution}
 
 
@@ -192,14 +191,13 @@ The numerals will go in the 3 remaining positions. The numerals all have to be d
 
 Thus we will get 
 
-\[\binom{7}{4}*26*10*9*8\]
+\[\binom{7}{4}\cdot 26\cdot 10\cdot 9\cdot 8\]
 
 \end{solution}
 
 \item
 (4 points)
 How many 7-character license plates are there that are all letters and they are in alphabetical order?
-\end{enumerate}
 
 \begin{solution}
     Since the letters are all different, we choose a group of 7 letters out of the 26 possible letters, which gives us \(\binom{26}{7}\) ways. Each group can be put in alphabetical order exactly one way since no letter will repeat in each plate.
@@ -209,6 +207,7 @@ How many 7-character license plates are there that are all letters and they are 
     \[\binom{26}{7}\]
     
 \end{solution}
+\end{enumerate}
 
 \item
 An art museum with 12 different rooms just got a shipment of 9 new paintings (\emph{2 points for correct expression and 2 points for justification})
@@ -317,21 +316,7 @@ Therefore, the number of different ways to arrange the letters can be described 
 
 How many different ways are there to color the 9 \emph{edges} of a triangular prism with 9 different colors (so that two colorings are considered the same if one can be oriented to look the same as the other one?)
 
-% Self-contained replacement for the missing triangularprism image.
-\begin{center}
-\setlength{\unitlength}{1mm}
-\begin{picture}(65,42)
-\put(5,5){\line(1,0){30}}
-\put(5,5){\line(1,2){15}}
-\put(35,5){\line(-1,2){15}}
-\put(30,10){\line(1,0){30}}
-\put(30,10){\line(1,2){15}}
-\put(60,10){\line(-1,2){15}}
-\put(5,5){\line(5,1){25}}
-\put(35,5){\line(5,1){25}}
-\put(20,35){\line(5,1){25}}
-\end{picture}
-\end{center}
+ \includegraphics[scale=0.5]{triangularprism}
 
 
 \begin{solution}
