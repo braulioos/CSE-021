@@ -4,14 +4,19 @@
 \usepackage{graphicx}
 \usepackage{enumerate, comment}
 \usepackage{adjustbox}
-\usepackage{amsmath,mathabx}
+\usepackage{amsmath}
+
+\usepackage{amssymb}
+\usepackage{amsthm}
 
 \newcommand{\st}{~\mid~}
 \newcommand{\ind}{$~~~~~$}
 
 
 
-
+\newenvironment{solution}
+  {\par\noindent\textbf{Solution.}\ }
+  {\par}
 \begin{document}
 
 \hfill{CSE 21 Fall 2026}
@@ -110,20 +115,62 @@ At the start of the round, each of the 4 players (North, South, East, West) gets
 \item
 What is the probability that North has the double-six tile (the tile with 6 pips on either side)?
 
+\begin{solution}
+    The probability that North has the double-six tile is:
+    \[\boxed{\frac{7}{28}=\frac{1}{4}}\]
+    Because there are 28 tiles total, and each player gets 7 tiles.
+
+\end{solution}
 
 \item
 What is the probability that North has at least one double? (there are 7 doubles)
 
+\begin{solution}
+
+    The probability that North has at least one double is:
+    \[\boxed{1 - \frac{\binom{21}{7}}{\binom{28}{7}}}\]
+    Because the probability that North has at least one double is the complement of the probability that North has no doubles.
+    21 choose 7 is how many ways we can have doubles, and 28 choose 7 is how many combinations of tiles North can have. 
+    After dividing we get the probability of having no doubles. 1 minus that is that is the probability North has at least one double.
+
+\end{solution}
+
 \item
 What is the probability that North has at least one domino with a 6 and at least one domino with a blank?
+
+\begin{solution}
+    
+    Let event A be the event that North has no tiles containing a 6.
+    Let event B be the event that North has no tiles containing a blank.
+    Then the probability that North has at least one domino with a 6 and at least one domino with a blank is:
+    \[1 - P(A) - P(B)\]
+    But we are over substracting that one tile that has both a 6 and a blank. So we can add it back in by:
+    \[\boxed{1 - P(A) - P(B) - P(A \cap B)}\]
+    The probability of A and B is the same as part b, so out solution becomes:
+    \[\boxed{1 - \frac{\binom{21}{7}}{\binom{28}{7}} - \frac{\binom{21}{7}}{\binom{28}{7}} + \frac{\binom{15}{7}}{\binom{28}{7}}} = 1 - 2*\frac{\binom{21}{7}}{\binom{28}{7}} + \frac{\binom{15}{7}}{\binom{28}{7}}\]
+    We get 15 choose 7 from the intersection of A and B = 28 - (7 + 7 - 1), because we are looking for dominos that don't have 6 or
+    aren't blank, but we add 1 back in because of that one tile that is 6 and blank.
+\end{solution}
 
 \item
 What is the probability that North and South together hold all 7 tiles containing the value 6?
 
+\begin{solution}
+    
+    \[\boxed{\frac{\binom{21}{7}}{\binom{28}{14}}}\]
+    We find the probability by finding all ways to get 7 tiles on top of the 7 fixed tiles that all contain 6.
+    Divide that by number of ways we can pick 14 tiles and we get the probability of having all 7 tiles containing the value 6. 
+
+\end{solution}
+
 \item
 A ``Bad hand" is a set of 7 dominos with at least four doubles. What is the probability that one of the players has a bad hand?
 
-
+\begin{solution}
+    \[\boxed{\frac{\binom{7}{4}*\binom{21}{3} + \binom{7}{5}*\binom{21}{2} + \binom{7}{6}*\binom{21}{1} + \binom{7}{7}*\binom{21}{0}}{\binom{28}{7}}}\]
+    We approach every case by itself, starting with having 4 doubles (7 choose 4) and the rest is non doubles (21 choose 3).
+    We apply this to every case of each scenario and divide by how many ways we can choose 7 tiles from 28.
+\end{solution}
 
 \end{enumerate}
 
@@ -148,11 +195,50 @@ Here are the payouts:
 \item (4 points)
 What is the expected number of matches you make with the winning numbers?
 
+\begin{solution}
+    
+    Let $X_i$ be the number that matches. The probability that all number match is:\\
+    \(X = X_1 + X_2 + \dots + X_5\)
+    The expected value of that probability, because of linearity of expected values:\\
+    \(E(X) = E(X_1) + E(X_2) + \dots + E(X_5)\)\\
+    The expected value of X is P(X) = $\frac{5}{39}$
+    So expected number of matches is:
+    \[\boxed{E(X) = 5*\frac{5}{39} = \frac{25}{39}}\]
+
+
+\end{solution}
+
 \item (4 points)
 What is the expected profit you make from playing this game?
 
+\begin{solution}
+
+    First we need to find the probability of each payout:\\
+    \[P(0) = \frac{\binom{34}{5}}{\binom{39}{5}} = 0.483\]
+    \[P(1) = \frac{\binom{5}{1}*\binom{34}{4}}{\binom{39}{5}} = 0.403\]
+    \[P(2) = \frac{\binom{5}{2}*\binom{34}{3}}{\binom{39}{5}} = 0.104\]
+    \[P(3) = \frac{\binom{5}{3}*\binom{34}{2}}{\binom{39}{5}} = 0.010\]
+    \[P(4) = \frac{\binom{5}{4}*\binom{34}{1}}{\binom{39}{5}}\ = 0.0003\]
+    \[P(5) = \frac{1}{\binom{39}{5}}\ = 0.000002\]
+    Then expected profit is:
+    $(0 * 0.483 + 0.403 * 0 + 0.104 * 1 + 0.010 * 15 + 0.0003 * 401 + 0.000002 * 67000) - 1 \approx \boxed{\mathdollar-0.50}$
+
+
+\end{solution}
+
 \item (4 points)
 What is the expected number of times you must play this game before and including your first win of at least one dollar?
+
+\begin{solution}
+    
+    First we find the probability of getting at least one dollar = 0.11397343. \\
+    Let X be the amount of games we played to get at least 1 dollar, then:
+    \[E(X) = p + (1 - p) * (1 + E(X))\]
+    \[E(X) = 1 + (1 - p) * E(X)\]
+    \[E(X) = 1/p = \boxed{8.774}\]
+
+\end{solution}
+
 \end{enumerate}
 
 
