@@ -1,0 +1,356 @@
+\documentclass[10pt,letterpaper,unboxed,cm]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{enumerate, comment}
+\usepackage{adjustbox}
+\usepackage{amsmath,mathabx}
+\usepackage{amsthm}
+\newcommand{\st}{~\mid~}
+\newcommand{\ind}{$~~~~~$}
+\begin{document}
+\hfill{CSE 21 Fall 2026}
+\hfill{Homework 3}
+\hfill{Due date: Monday October 19, 2026 at 11:59pm}
+\begin{center}
+\begin{minipage}[t]{5.7in}
+\rule{\linewidth}{2pt}
+{\sc Instructions}\newline
+This homework should be done in {\bf groups} of one to four students, without
+assistance from anyone besides the instructional staff and your group members.
+Homework must be submitted through Gradescope by a {\bf single representative} of
+your group and received by {\bf 11:59pm} on the due date. There are no exceptions
+to this rule.\\
+You will be able to look at your scanned work before submitting it.
+You must {\bf type} your solutions. (hand-drawn diagrams are okay.)
+Your group representative can resubmit your assignment as many times as you like
+before the deadline. Only the most recent submission will be graded.\\
+Students should consult their textbook, class notes, lecture slides, podcasts,
+group members, instructors, TAs, and tutors when
+they need help with homework. You may ask questions about the homework in office
+hours, but questions on Piazza should be private, visible only to instructors.
+This assignment will be graded for not only the \emph{correctness} of your answers,
+but on your ability to present your ideas clearly and logically. You should explain
+or justify, present clearly how you arrived at your conclusions and justify the
+correctness of your answers with mathematically sound reasoning (unless explicitly
+told not to). Whether you use formal proof techniques or write a more informal
+argument for why something is true, your answers should always be well-supported.
+Your goal should be to {\bf convince the reader} that your results and methods are
+sound.
+{\sc Key Concepts} basic probability principles,
+independence, conditional probability, Bayes’ Theorem, Random Sampling, Random
+Variables, .
+\rule{\linewidth}{2pt}
+\end{minipage} \hfill
+\end{center}
+\begin{enumerate}
+\item (20 points)
+Consider the set $H$ of all non-negative integer solutions to the equation:
+$$a_1 + a_2 + a_3 + a_4 + a_5 + a_6 = 30$$
+(You can think of $H$ as a set of 6-tuples of non-negative integers that add up to
+30).
+You wish to pick one of the elements of $H$ at random and the way you decide to do
+it is the following:
+Initialize a 6-tuple to be all zeros (0,0,0,0,0,0).
+Roll a fair 6 sided die 30 times. For each roll that shows a 1, increment the 1st
+position, for each roll that shows a 2, increment the 2nd position and so on.
+(include a justification of each problem.)
+\begin{enumerate}
+\item
+What is the probability that you get the element: $(5,5,5,5,5,5)$?
+
+First lets let \(S\) be the set of all sequences of 30 die rolls, each roll has 6 possible outcomes so 
+
+\[|S| = 6^{30}\]
+
+This is the sample space.
+
+Since we know that the die is fair every sequence is equally likely to happen so we can use 
+
+\[P(E) = \frac{|E|}{|S|}\]
+
+Now if lets let \(E\) be the set of sequences where each of the 6 faces is rolled exactly 5 times. To count these we must choose which rolls show each face. Starting with face 1 we decide where it will go in the roll position with \(\binom{30}{5}\). With the remaining 25 rolls we choose where face 2 will go next \(\binom{25}{5}\). Now if we continue this process with the remaining faces we will get.
+
+\[|E| = \binom{30}{5}\binom{25}{5}\binom{20}{5}\binom{15}{5}\binom{10}{5}\binom{5}{5}\]
+
+Therefore,
+\[P(E) = \frac{|E|}{|S|} = \frac{\binom{30}{5}\binom{25}{5}\binom{20}{5}\binom{15}{5}\binom{10}{5}\binom{5}{5}}{6^{30}} \approx 0.000402\]
+
+\item
+What is the probability that at least one of the entries is $0$?
+
+If one of the entries in the tuple is 0, then one of the faces was never rolled in the sequence of 30 rolls. So we want the probability that at least one face is never rolled.
+
+we know from part a that \(|S| = 6^{30}\) and each sequence is equally likely because the die is fair so we can still use 
+
+\[P(E) = \frac{|E|}{|S|}\]
+
+Now let \(i\) be the integers \(1-6\) where \(A_i\) is the set of roll sequences where the face \(i\) is never rolled. Then the event that at least one entry is 0 is the union of these sets
+
+\[E = A_1 \cup A_2 \cup A_3 \cup A_4 \cup A_5 \cup A_6\]
+
+We will use PIE(Inclusion-Exclusion) to count this union. If a given set of $k$ faces is never rolled, then each of the 30 rolls has only $6-k$ options, so any intersection of $k$ of the $A_i$'s has size $(6-k)^{30}$. There are $\binom{6}{k}$ ways to choose which $k$ faces are missing. So by PIE,
+\[|E| = \binom{6}{1}5^{30} - \binom{6}{2}4^{30} + \binom{6}{3}3^{30} - \binom{6}{4}2^{30} + \binom{6}{5}1^{30} - \binom{6}{6}0^{30}\]
+\[= 6 \cdot 5^{30} - 15 \cdot 4^{30} + 20 \cdot 3^{30} - 15 \cdot 2^{30} + 6 \cdot 1^{30} - 0\]
+
+
+Therefore,
+\[P(E) = \frac{|E|}{|S|} = \frac{6 \cdot 5^{30} - 15 \cdot 4^{30} + 20 \cdot 3^{30} - 15 \cdot 2^{30} + 6 \cdot 1^{30}}{6^{30}} \approx 0.0252\]
+
+\item
+What is the probability that one of the entries is exactly 16?
+
+we know from part a that \(|S| = 6^{30}\) and each sequence is equally likely because the die is fair so we can still use 
+
+\[P(E) = \frac{|E|}{|S|}\]
+
+
+Now let \(E\) be the set of roll sequences where one of the faces is rolled exactly 16 times
+
+We must choose which 16 of the 30 rolls are going to show that face so we get \(\binom{30}{16}\). Each of the remaining 14 rolls can be any of the other 5 remaining faces which will give \(5^{14}\) options. Using the product rule the number of sequences where that particular face is rolled exactly 16 times is 
+
+\[\binom{30}{16} * 5^{14}\]
+
+Any of the 6 faces could be the one rolled 16 times, so.
+\[|E| = 6 \cdot \binom{30}{16} \cdot 5^{14}\]
+
+Therefore,
+\[P(E) = \frac{|E|}{|S|} = \frac{6 \cdot \binom{30}{16} \cdot 5^{14}}{6^{30}} \approx 0.0000241\]
+\item
+Explain why this is not a uniform random sampling. (Show that the probability of
+each outcome is not equally likely.)
+
+This is not uniform random sampling because the tuples in $H$ do not all have the same probability.
+
+Every sequence of 30 die rolls is equally likely, so each sequence has a probability of \(\frac{1}{6^{30}}\). However, a tuple is made up of all the sequences that produce it, so its probability is the number of sequences that give that tuple divided by \(6^{30}\).
+
+For example, take the tuple \((30,0,0,0,0,0)\). The only way to get it is if all 30 rolls are 1's, so there is only 1 sequence:
+
+\[P((0,0,0,0,0,30)) = \frac{1}{6^{30}}\]
+
+Now we take the tuple \((5,5,5,5,5,5)\). From part a, and its probability is
+
+\[P((5,5,5,5,5,5)) = \frac{\binom{30}{5} \binom{25}{5} \binom{20}{5} \binom{15}{5} \binom{10}{5} \binom{5}{5}}{6^{30}}\]
+
+The numerator is much bigger than 1 so the tuple \((5,5,5,5,5,5)\) is far more likely than \((0,0,0,0,0,30)\).
+If this were uniform random sampling then they would have the same probability, so it is not uniform random sampling.
+
+\item
+Which elements are the least likely to occur and why?
+
+The least likely elements are the tuples where one of the entries is 30 and the rest are 0. Just like the previous example I gave of the tuple 
+
+\[(0,0,0,0,0,30)\]
+
+The only way to get this tuple is for all 30 rolls to show the same face so each tuple like this comes from exactly 1 sequence of rolls that has the probability of \(\frac{1}{6^{30}}\). 
+
+Every tuple comes from at least 1 sequence and any tuple with two or more nonzero entries will come from more than one sequence because the faces can be arranged in different orders. So these types of tuples will be the least likely ones.
+
+\end{enumerate}
+\item (12 points)
+Suppose you are at a casino and there are three slot machines. You know that two
+slot machines each win with probability 0.5, and the other wins with a probability
+of 0.9.
+You pick one of the slot machines (equally at random) and you play 8 games and win
+them all.
+\begin{itemize}
+\item
+What is the probability that you are at the slot machine that wins with probability
+of 0.9?
+
+Let \(F\) be the event where you picked the machine with .9 win probability, thus \(F^c\) is the event where you picked one of the two machines with .5 win probability
+
+Also let\(E\) be the event where you won all 8 games
+
+So we are trying to find 
+
+\[P(F|E)\]
+
+Since the games are independent we can multiply the win chances 8 times given the machine we are on
+
+\[P(E|F) = (.9)^8 \approx 0.4305\]
+\[P(E|F^c)=(0.5)^8 \approx 0.00390625\]
+
+Now we will use the law of total probability to find the probability of 8 wins overall
+
+\[P(E) = P(E|F)P(F)+P(E|F^c)P(F^c)\]
+\[=(0.9)^8(\frac{1}{3})+(0.5)^8(\frac{2}{3})=0.14609\]
+
+Now we can use bayes theorem
+\[P(F \mid E) = \frac{P(E \mid F)P(F)}{P(E)}\]
+
+\[\frac{(0.9)^8(\frac{1}{3})}{(0.9)^8(\frac{1}{3})+(0.5)^8(\frac{2}{3})}  \approx0.982\]
+
+So the probability that you are at the 0.9 machine is approximately \(0.982\).
+
+\item
+If you decide to stay at the same slot machine (after winning 8 games), what is the
+probability that your next game results in a win?
+
+Let \(N\) be the event where you win the 9th game. And let the events \(F,F^c \) and \(E\) stay the same from problem a.
+
+So we are trying to find \(P(N|E)\)
+
+We know from the previous problem that 
+
+\[P(F|E) \approx 0.982\]
+
+So the probability that you are at one of the machines with 0.5 win probability is,
+
+\[P(F^c|E)=1-P(F|E) \approx 0.018\]
+
+Once we know which machine we are on, the next game is independent of the first 8 so the win chance is just the machines probability.
+
+\[P(N|F) = 0.9\]
+\[P(N|F^c) = 0.5\]
+
+Using the law of total probability we get
+\[P(N|E) = P(N|F)P(F|E)+P(N|F^c)P(F^c|E)\]
+\[(0.9)(0.982)+(0.5)(0.018) \approx0.893\]
+So the probability that your next game is a win is approximately \(0.893\).
+\end{itemize}
+
+\item
+\emph{Partnership Dominos} is a game that involves 4 players and a \emph{Double-6 Domino set}.
+
+A \emph{Double-6 Domino set} is a set of 28 different tiles such that each tile has two values (one on each side. The values are given by a number of \emph{pips} or dots to signify the value.) There is one domino for each combination of values from 0 through 6 (including doubles). Here is a picture of a full set of 28 Double-6 dominos:
+
+\includegraphics[scale=0.4]{dominos}
+
+At the start of the round, each of the 4 players (North, South, East, West) gets 7 tiles.
+
+\begin{enumerate}
+
+\item
+What is the probability that North has the double-six tile (the tile with 6 pips on either side)?
+
+\begin{solution}
+    The probability that North has the double-six tile is:
+    \[\boxed{\frac{7}{28}=\frac{1}{4}}\]
+    Because there are 28 tiles total, and each player gets 7 tiles.
+
+\end{solution}
+
+\item
+What is the probability that North has at least one double? (there are 7 doubles)
+
+\begin{solution}
+
+    The probability that North has at least one double is:
+    \[\boxed{1 - \frac{\binom{21}{7}}{\binom{28}{7}}}\]
+    Because the probability that North has at least one double is the complement of the probability that North has no doubles.
+    21 choose 7 is how many ways we can have doubles, and 28 choose 7 is how many combinations of tiles North can have. 
+    After dividing we get the probability of having no doubles. 1 minus that is that is the probability North has at least one double.
+
+\end{solution}
+
+\item
+What is the probability that North has at least one domino with a 6 and at least one domino with a blank?
+
+\begin{solution}
+    
+    Let event A be the event that North has no tiles containing a 6.
+    Let event B be the event that North has no tiles containing a blank.
+    Then the probability that North has at least one domino with a 6 and at least one domino with a blank is:
+    \[1 - P(A) - P(B)\]
+    But we are over substracting that one tile that has both a 6 and a blank. So we can add it back in by:
+    \[\boxed{1 - P(A) - P(B) - P(A \cap B)}\]
+    The probability of A and B is the same as part b, so out solution becomes:
+    \[\boxed{1 - \frac{\binom{21}{7}}{\binom{28}{7}} - \frac{\binom{21}{7}}{\binom{28}{7}} + \frac{\binom{15}{7}}{\binom{28}{7}}} = 1 - 2*\frac{\binom{21}{7}}{\binom{28}{7}} + \frac{\binom{15}{7}}{\binom{28}{7}}\]
+    We get 15 choose 7 from the intersection of A and B = 28 - (7 + 7 - 1), because we are looking for dominos that don't have 6 or
+    aren't blank, but we add 1 back in because of that one tile that is 6 and blank.
+\end{solution}
+
+\item
+What is the probability that North and South together hold all 7 tiles containing the value 6?
+
+\begin{solution}
+    
+    \[\boxed{\frac{\binom{21}{7}}{\binom{28}{14}}}\]
+    We find the probability by finding all ways to get 7 tiles on top of the 7 fixed tiles that all contain 6.
+    Divide that by number of ways we can pick 14 tiles and we get the probability of having all 7 tiles containing the value 6. 
+
+\end{solution}
+
+\item
+A ``Bad hand" is a set of 7 dominos with at least four doubles. What is the probability that one of the players has a bad hand?
+
+\begin{solution}
+    \[\boxed{\frac{\binom{7}{4}*\binom{21}{3} + \binom{7}{5}*\binom{21}{2} + \binom{7}{6}*\binom{21}{1} + \binom{7}{7}*\binom{21}{0}}{\binom{28}{7}}}\]
+    We approach every case by itself, starting with having 4 doubles (7 choose 4) and the rest is non doubles (21 choose 3).
+    We apply this to every case of each scenario and divide by how many ways we can choose 7 tiles from 28.
+\end{solution}
+
+\end{enumerate}
+
+\item
+\emph{Fantasy Five} is a lottery game you can play for \$1. The way it works is, from the set {1,2,3,...,39}, you select a subset of 5 different numbers.
+
+The lottery commissioner also selects 5 \emph{winning numbers} uniformly at random.
+
+You win money based on how many of your numbers match with the \emph{winning numbers}.
+
+Here are the payouts:
+
+5 out of 5 pays \$67000\\
+4 out of 5 pays \$401\\
+3 out of 5 pays \$15\\
+2 out of 5 pays \$1\\
+1 out of 5 pays \$0\\
+0 out of 5 pays \$0\\
+
+
+\begin{enumerate}
+\item (4 points)
+What is the expected number of matches you make with the winning numbers?
+
+\begin{solution}
+    
+    Let $X_i$ be the number that matches. The probability that all number match is:\\
+    \(X = X_1 + X_2 + \dots + X_5\)
+    The expected value of that probability, because of linearity of expected values:\\
+    \(E(X) = E(X_1) + E(X_2) + \dots + E(X_5)\)\\
+    The expected value of X is P(X) = $\frac{5}{39}$
+    So expected number of matches is:
+    \[\boxed{E(X) = 5*\frac{5}{39} = \frac{25}{39}}\]
+
+
+\end{solution}
+
+\item (4 points)
+What is the expected profit you make from playing this game?
+
+\begin{solution}
+
+    First we need to find the probability of each payout:\\
+    \[P(0) = \frac{\binom{34}{5}}{\binom{39}{5}} = 0.483\]
+    \[P(1) = \frac{\binom{5}{1}*\binom{34}{4}}{\binom{39}{5}} = 0.403\]
+    \[P(2) = \frac{\binom{5}{2}*\binom{34}{3}}{\binom{39}{5}} = 0.104\]
+    \[P(3) = \frac{\binom{5}{3}*\binom{34}{2}}{\binom{39}{5}} = 0.010\]
+    \[P(4) = \frac{\binom{5}{4}*\binom{34}{1}}{\binom{39}{5}}\ = 0.0003\]
+    \[P(5) = \frac{1}{\binom{39}{5}}\ = 0.000002\]
+    Then expected profit is:
+    $(0 * 0.483 + 0.403 * 0 + 0.104 * 1 + 0.010 * 15 + 0.0003 * 401 + 0.000002 * 67000) - 1 \approx \boxed{\mathdollar-0.50}$
+
+
+\end{solution}
+
+\item (4 points)
+What is the expected number of times you must play this game before and including your first win of at least one dollar?
+
+\begin{solution}
+    
+    First we find the probability of getting at least one dollar = 0.11397343. \\
+    Let X be the amount of games we played to get at least 1 dollar, then:
+    \[E(X) = p + (1 - p) * (1 + E(X))\]
+    \[E(X) = 1 + (1 - p) * E(X)\]
+    \[E(X) = 1/p = \boxed{8.774}\]
+
+\end{solution}
+
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+\end{document}
