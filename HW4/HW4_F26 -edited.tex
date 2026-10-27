@@ -1,0 +1,224 @@
+
+\documentclass[10pt,letterpaper,unboxed,cm]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{enumerate, comment}
+\usepackage{adjustbox}
+\usepackage{amsmath,mathabx}
+
+\newcommand{\st}{~\mid~}
+\newcommand{\ind}{$~~~~~$}
+
+\usepackage{amsthm}
+
+\newenvironment{solution}
+  {\begin{proof}[Solution]}
+  {\end{proof}}
+
+\usepackage{setspace}
+\setstretch{1.3}
+
+\begin{document}
+
+\hfill{CSE 21 Fall 2026}
+
+\hfill{Homework 4}
+
+\hfill{Due date: Monday, October 26 at 11:59pm}
+
+
+
+\begin{enumerate}
+\item (12 points)
+Let $(a_1,\dots,a_n)$ be a random permutation of the elements $\{1,\dots,n\}$ selected uniformly at random. Compute each expected value using linearity of expectation:
+
+
+\begin{enumerate}
+\item
+Compute the expected number of indices that have the property that $i<a_i$.
+
+\begin{solution}
+    Let $X_i$ be equal to 1 if $i < a_i$, and 0 otherwise. 
+    The expected value E($X_i$) is the probability of the event $i < a_i$:\\
+    \(P(X_i)=\frac{n-i}{n}\) \\
+    Because there is n-i elements that hold the inequality that $i < a_i$. And the total amount of elements is n.\\
+    Now we can compute the expected value using the linearity of expectaction:\\
+    \(E(X) = \sum_{i=1}^{n} E(X_i) = \frac{(n-1)+(n-2)+\dots+1}{n} = \frac{\frac{n(n-1)}{2}}{n} = \boxed{\frac{n-1}{2}}\)\\
+\end{solution}
+\item
+Compute the expected number of interior elements $a_i$ such that $a_{i-1}<a_i<a_{i+1}$.
+
+\begin{solution}
+    
+    Let $X_i$ be equal to 1 if $a_{i-1} < a_i < a_{i+1}$, 0 otherwise.\\
+    The expected value of $X_i$ is then the following probability: 1/6\\
+    Because if there is 3 numbers the probability that they are in order is 1 out of 3! equally likely orderings.\\
+    The total expected value by the formula becomes:\\
+    \(E(X) = \sum_{i=2}^{n-1} E(X_i) = \boxed{\frac{n-2}{6}}\)\\
+    With n-2 interior spots for the three numbers, each with probability 1/6, the expected value becomes $\frac{n-2}{6}$. 
+\end{solution}
+
+\item
+Compute the expected number of swaps (A swap is a pair of elements $(a_i,a_j)$ such that $a_i=j$ and $a_j=i$ and $i<j$.)
+
+\begin{solution}
+    Let $X_{ij}$ be 1 if $a_i = j and a_j = i$, 0 otherwise.\\
+    To find the probability of $X_{ij}$ we can split it into two probabilities:\\
+    \(P(a_i = j) = \frac{1}{n} \hspace{2cm} P(a_j = i | a_i = j) = \frac{1}{n-1}\)\\
+    n-1 comes from the fact that the first number is already chosen: $a_i$.\\
+    The combined probability is then:\\
+    \(P(a_i = j \text{ and } a_j = i) = P(a_i = j) * P(a_j = i | a_i = j) = \frac{1}{n} * \frac{1}{n-1} = \frac{1}{n(n-1)}\)\\
+    The total expected value then becomes:\\
+    \(\sum_{i<j} E(X_{ij}) = \binom{n}{2} * \frac{1}{n(n-1)} = \frac{n!}{(n-2)!2!} * \frac{1}{n(n-1)} = \frac{n(n-1)(n-2)!}{(n-2)!2!} * \frac{1}{n(n-1)} = \frac{n(n-1)}{2*n(n-1)} = \boxed{\frac{1}{2}}\)\\
+   $\binom{n}{2}$ comes from number of pairs we can make with n numbers. 
+\end{solution}
+
+\end{enumerate}
+
+
+
+\item (16 points)
+\begin{enumerate}
+\item
+An art museum with 12 different rooms just got a shipment of 9 new \emph{different} paintings. The museum curator puts the paintings in the rooms uniformly at random (each of the $12^9$ arrangements is equally likely.)
+
+\begin{enumerate}
+\item
+Compute the expected number of rooms without any paintings.
+
+\begin{solution}
+    Let $X_i$ be 1 if room i is empty and 0 otherwise.\\
+    \(E(X_i) = P(room is empty) = (\frac{11}{12})^9\)\\
+    This is true because chance that the curator puts a painting into another room is $\frac{11}{12}$. Every painting has equal chance of missing the room, so we put it to the power of 9.\\
+    This makes the total expected value by linearity:\\
+    \(E(X) = 12 * E(X_i) = 12 * (\frac{11}{12})^9 \approx \boxed{5.48 \text{ rooms}}\)
+\end{solution}
+
+\item
+Compute the expected number of rooms with exactly 1 painting.
+
+\begin{solution}
+    
+    Let $X_i$ be 1 if room has exactly one painting, 0 otherwise.\\
+    \(P(X_i) = 9*\frac{1}{12}*(\frac{11}{12})^8\)\\
+    This is true because probability that the first chosen painting gets into room i is $\frac{1}{12}$, and the probability that the 8 remaining paintings don't end up in room i is: $(\frac{11}{12})^8$.\\
+    Now by linearity the expected number of rooms with exactly one painting comes to be:\\
+    \(E(X) = 12*9*\frac{1}{12}*(\frac{11}{12})^8 \approx \boxed{4.49\text{ rooms}}\)\\
+    Because we have 12 rooms and 9 paintings.
+
+\end{solution}
+
+\end{enumerate}
+
+
+\item
+An art museum with 12 different rooms just got a shipment of 9 \emph{indistinguishable} prints. The museum curator puts the prints in the rooms uniformly at random (each of the ${9 + 12-1 \choose 12-1}$ arrangements is equally likely.)
+
+\begin{enumerate}
+\item
+Compute the expected number of rooms without any prints.
+
+\begin{solution}
+    
+    Let $X_i$ be 1 if room i has no prints, 0 otherwise.\\
+    The probability of such event is then:\\
+    \(P(X_i) = \frac{\binom{19}{10}}{\binom{20}{11}} = \frac{19!*9!*11*10!}{9!*10!*20*19!} = \frac{11}{20}\)\\
+    This is because, we can just divide arrangements without room i by the total amount of ways to distribute the prints.\\
+    By linearity of expectaction we have:\\
+    \(E(X) = 12 * \frac{11}{20} = \boxed{6.6 \text{ rooms}}\)
+
+\end{solution}
+
+\item
+Compute the expected number of rooms with exactly 1 print.
+
+\begin{solution}
+    
+    Let $X_i$ be 1 if room has exactly one print, 0 otherwise.\\
+    \(P(X_i) = \frac{\binom{18}{10}}{\binom{20}{11}}\)\\
+    This is true because we take away one painting and one room, and run the stars and bars formula and divide by the total amount of ways.\\
+    Now by linearity of expectaction we can find the expected number of rooms with exactly 1 print:\\
+    \(E(X) = 12 * \frac{\binom{18}{10}}{\binom{20}{11}} \approx \boxed{3.13 \text{ rooms}}\)
+
+\end{solution}
+
+\end{enumerate}
+
+\end{enumerate}
+
+
+\item (8 points)
+
+\begin{enumerate}
+\item
+What is the expected number of coin flips of a fair coin until you get two consecutive H's?
+
+(Hint: use the law of total expectation and use algebra to solve the equation:
+
+$$E(X) = E(X|T)P(T) + E(X|HT)P(HT) + E(X|HH)P(HH)$$
+
+where $X$ is the random variable of the number of flips until you get two consecutive H's, $T$ is the event that your first flip is tails, $HT$ is the event that your first two flips are heads, tails, and $HH$ is the event that the first two flips are $HH$.)
+
+\begin{solution}
+
+    \(E(X) = \frac{1}{2}(1 + E(X))  +  \frac{1}{4}(2 + E(X)) + \frac{1}{4}*2\)\\
+    \(E(X) = \frac{E(X)}{2} + \frac{E(X)}{4} + \frac{1}{2} + \frac{1}{2} + \frac{1}{2}\)\\
+    \(E(X) = \frac{3E(X)}{4} + \frac{3}{2} \rightarrow \frac{1}{4}E(X) = \frac{3}{2} \rightarrow \boxed{E(X) = 6}\)\\
+    This basic algebra. The expected value of E(X|T) is (1 + E(X)) because flips are independent if we get a T we just have to start over, making the expected value be 1 + E(X).
+    Same logic is being applied to each of the following expected values.
+
+\end{solution}
+
+\item
+What is the expected number of coin flips until you get a HHH?
+
+(You can use a similar strategy for this problem)
+
+\begin{solution}
+    For this case the expected value is as follows:\\
+    \(E(X) = \frac{1}{2}*E(X|T) + \frac{1}{4}*E(X|HT) + \frac{1}{8}*E(X|HHT) + \frac{1}{8}*E(X||HHH)\)\\
+    \(E(X) = \frac{1}{2}(1 + E(X)) + \frac{1}{4}(2 + E(X)) + \frac{1}{8}(3 + E(X)) + \frac{1}{8}*3\)\\
+    \(E(X) = \frac{E(X)}{2} + \frac{E(X)}{4} + \frac{E(X)}{8} + \frac{1}{2} + \frac{1}{2} + \frac{3}{8} + \frac{3}{8}\)\\
+    \(\frac{E(X)}{8} = \frac{14}{8} \rightarrow \boxed{E(X) = 14}\)\\
+    Again, we are just applying the same principle as in part a.
+\end{solution}
+
+\end{enumerate}
+
+\item (8 points)
+An ideal hash function from $\{1,\dots, m\}$ to $\{1,\dots, n\}$ is a function that is selected uniformly at random from the set of all functions that have domain $\{1,\dots, m\}$ and codomain $\{1,\dots, n\}$.
+
+\begin{enumerate}
+\item
+Let $H$ be an ideal hash function from $\{1,\dots, m\}$ to $\{1,\dots, n\}$. What is the expected number of collisions? (a collision is a pair of domain elements $i<j$ such that $H(i) = H(j)$.
+
+\begin{solution}
+    
+    Let $X_{ij}$ be 1 if H(i) = H(j), 0 otherwise.\\
+    Then the expected value of $X_{ij}$ is:\\
+    \(E(X_{ij}) = P(H(i)) = H(j) = \frac{1}{n}\)\\
+    There are $\binom{m}{2}$ pairs so by linearity we have the expected value:\\
+    \(E(X) = \binom{m}{2} * \frac{1}{n} = \boxed{\frac{m(m-1)}{2n}}\)
+    
+\end{solution}
+
+\item
+Let $H$ be an ideal hash function from $\{1,\dots, m\}$ to $\{1,\dots, n\}$. What is the expected number of codomain values that do not get mapped to?
+
+\begin{solution}
+    
+    Let $X_i$ be 1 if no element maps to i, 0 otherwise.\\
+    Since the distribution is uniform we can say that the probability of a value not being mapped to is:\\
+    \(E(X_i) = (\frac{n-1}{n})^m\)\\
+    And all m number of values need to miss so we put it to the power of m. Then, by linearity we have the expected number of values that do not get mapped to be:\\
+    \(E(X) = \sum_{i=1}^{n} E(X_i) = \boxed{n * (\frac{n-1}{n})^m}\)
+
+\end{solution}
+
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+\end{document}
