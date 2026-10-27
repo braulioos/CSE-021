@@ -62,7 +62,7 @@ Compute the expected number of interior elements $a_i$ such that $a_{i-1}<a_i<a_
 Compute the expected number of swaps (A swap is a pair of elements $(a_i,a_j)$ such that $a_i=j$ and $a_j=i$ and $i<j$.)
 
 \begin{solution}
-    Let $X_{ij}$ be 1 if $a_i = j and a_j = i$, 0 otherwise.\\
+    Let $X_{ij}$ be 1 if $a_i = j \text{ and } a_j = i$, 0 otherwise.\\
     To find the probability of $X_{ij}$ we can split it into two probabilities:\\
     \(P(a_i = j) = \frac{1}{n} \hspace{2cm} P(a_j = i | a_i = j) = \frac{1}{n-1}\)\\
     n-1 comes from the fact that the first number is already chosen: $a_i$.\\
@@ -88,7 +88,7 @@ Compute the expected number of rooms without any paintings.
 
 \begin{solution}
     Let $X_i$ be 1 if room i is empty and 0 otherwise.\\
-    \(E(X_i) = P(room is empty) = (\frac{11}{12})^9\)\\
+    \(E(X_i) = P(\text{room is empty}) = (\frac{11}{12})^9\)\\
     This is true because chance that the curator puts a painting into another room is $\frac{11}{12}$. Every painting has equal chance of missing the room, so we put it to the power of 9.\\
     This makes the total expected value by linearity:\\
     \(E(X) = 12 * E(X_i) = 12 * (\frac{11}{12})^9 \approx \boxed{5.48 \text{ rooms}}\)
@@ -101,7 +101,7 @@ Compute the expected number of rooms with exactly 1 painting.
     
     Let $X_i$ be 1 if room has exactly one painting, 0 otherwise.\\
     \(P(X_i) = 9*\frac{1}{12}*(\frac{11}{12})^8\)\\
-    This is true because probability that the first chosen painting gets into room i is $\frac{1}{12}$, and the probability that the 8 remaining paintings don't end up in room i is: $(\frac{11}{12})^8$.\\
+    This is true because any one of the 9 paintings can be the one in room i, it lands there with probability $\frac{1}{12}$, and the other 8 miss: $(\frac{11}{12})^8$ \\
     Now by linearity the expected number of rooms with exactly one painting comes to be:\\
     \(E(X) = 12*9*\frac{1}{12}*(\frac{11}{12})^8 \approx \boxed{4.49\text{ rooms}}\)\\
     Because we have 12 rooms and 9 paintings.
@@ -136,7 +136,7 @@ Compute the expected number of rooms with exactly 1 print.
     
     Let $X_i$ be 1 if room has exactly one print, 0 otherwise.\\
     \(P(X_i) = \frac{\binom{18}{10}}{\binom{20}{11}}\)\\
-    This is true because we take away one painting and one room, and run the stars and bars formula and divide by the total amount of ways.\\
+    This is true because we take away one print and one room, and run the stars and bars formula and divide by the total amount of ways.\\
     Now by linearity of expectaction we can find the expected number of rooms with exactly 1 print:\\
     \(E(X) = 12 * \frac{\binom{18}{10}}{\binom{20}{11}} \approx \boxed{3.13 \text{ rooms}}\)
 
@@ -164,7 +164,7 @@ where $X$ is the random variable of the number of flips until you get two consec
     \(E(X) = \frac{1}{2}(1 + E(X))  +  \frac{1}{4}(2 + E(X)) + \frac{1}{4}*2\)\\
     \(E(X) = \frac{E(X)}{2} + \frac{E(X)}{4} + \frac{1}{2} + \frac{1}{2} + \frac{1}{2}\)\\
     \(E(X) = \frac{3E(X)}{4} + \frac{3}{2} \rightarrow \frac{1}{4}E(X) = \frac{3}{2} \rightarrow \boxed{E(X) = 6}\)\\
-    This basic algebra. The expected value of E(X|T) is (1 + E(X)) because flips are independent if we get a T we just have to start over, making the expected value be 1 + E(X).
+    This is basic algebra. The expected value of E(X|T) is (1 + E(X)) because flips are independent if we get a T we just have to start over, making the expected value be 1 + E(X).
     Same logic is being applied to each of the following expected values.
 
 \end{solution}
@@ -176,7 +176,7 @@ What is the expected number of coin flips until you get a HHH?
 
 \begin{solution}
     For this case the expected value is as follows:\\
-    \(E(X) = \frac{1}{2}*E(X|T) + \frac{1}{4}*E(X|HT) + \frac{1}{8}*E(X|HHT) + \frac{1}{8}*E(X||HHH)\)\\
+    \(E(X) = \frac{1}{2}*E(X|T) + \frac{1}{4}*E(X|HT) + \frac{1}{8}*E(X|HHT) + \frac{1}{8}*E(X|HHH)\)\\
     \(E(X) = \frac{1}{2}(1 + E(X)) + \frac{1}{4}(2 + E(X)) + \frac{1}{8}(3 + E(X)) + \frac{1}{8}*3\)\\
     \(E(X) = \frac{E(X)}{2} + \frac{E(X)}{4} + \frac{E(X)}{8} + \frac{1}{2} + \frac{1}{2} + \frac{3}{8} + \frac{3}{8}\)\\
     \(\frac{E(X)}{8} = \frac{14}{8} \rightarrow \boxed{E(X) = 14}\)\\
@@ -196,7 +196,7 @@ Let $H$ be an ideal hash function from $\{1,\dots, m\}$ to $\{1,\dots, n\}$. Wha
     
     Let $X_{ij}$ be 1 if H(i) = H(j), 0 otherwise.\\
     Then the expected value of $X_{ij}$ is:\\
-    \(E(X_{ij}) = P(H(i)) = H(j) = \frac{1}{n}\)\\
+    \(E(X_{ij}) = P(H(i) = H(j)) = \frac{1}{n}\)\\
     There are $\binom{m}{2}$ pairs so by linearity we have the expected value:\\
     \(E(X) = \binom{m}{2} * \frac{1}{n} = \boxed{\frac{m(m-1)}{2n}}\)
     
@@ -210,7 +210,7 @@ Let $H$ be an ideal hash function from $\{1,\dots, m\}$ to $\{1,\dots, n\}$. Wha
     Let $X_i$ be 1 if no element maps to i, 0 otherwise.\\
     Since the distribution is uniform we can say that the probability of a value not being mapped to is:\\
     \(E(X_i) = (\frac{n-1}{n})^m\)\\
-    And all m number of values need to miss so we put it to the power of m. Then, by linearity we have the expected number of values that do not get mapped to be:\\
+    And all m domain elements must miss value i so we put it to the power of m. Then, by linearity we have the expected number of values that do not get mapped to be:\\
     \(E(X) = \sum_{i=1}^{n} E(X_i) = \boxed{n * (\frac{n-1}{n})^m}\)
 
 \end{solution}
