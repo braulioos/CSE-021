@@ -1,0 +1,336 @@
+
+\documentclass[10pt,letterpaper,unboxed,cm]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{enumerate, comment}
+\usepackage{adjustbox}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\st}{~\mid~}
+\newcommand{\ind}{$~~~~~$}
+
+
+
+
+\begin{document}
+
+\hfill{CSE 21 Fall 2026}
+
+\hfill{Homework 5}
+
+\hfill{Due date: Monday Nov 9, 2026 at 11:59pm}
+
+\begin{center}
+\begin{minipage}[t]{5.7in}
+\rule{\linewidth}{2pt}
+{\sc Instructions}\newline
+
+This homework should be done in {\bf groups} of one to four students, without assistance from anyone besides the instructional staff and your group members.  Homework must be submitted through Gradescope by a {\bf single representative} of your group and received by {\bf 11:59pm} on the due date. There are no exceptions to this rule.\\
+ 
+You will be able to look at your scanned work before submitting it. 
+ You must {\bf type} your solutions. (hand-drawn diagrams are okay.)
+ Your group representative can resubmit your assignment as many times as you like before the deadline. Only the most recent submission will be graded.\\
+
+Students should consult their textbook, class notes, lecture slides, podcasts, group members, instructors, TAs, and tutors when 
+they need help with homework. You may ask questions about the homework in office hours, but questions on Piazza should be private, visible only to instructors. 
+
+This assignment will be graded for not only the \emph{correctness} of your answers, but on your ability to present your ideas clearly and logically. You should explain or justify, present clearly how you arrived at your conclusions and justify the correctness of your answers with mathematically sound reasoning (unless explicitly told not to). Whether you use formal proof techniques or write a more informal argument for why something is true, your answers should always be well-supported. Your goal should be to {\bf convince the reader} that your results and methods are sound.
+
+
+
+
+
+
+{\sc Key Concepts} Sorting, searching, asymptotic notation, time analysis.
+
+
+
+\rule{\linewidth}{2pt}
+\end{minipage} \hfill
+
+\end{center}
+\newpage
+
+\begin{enumerate}
+
+
+
+\item (12 points)
+Let $f:\mathbb{R}\to \mathbb{R}$ be a continuous increasing function. Then we can use a version of binary search to solve for the ``root" of the function $f$ (value $x$ such that $f(x)=0$.) This algorithm will take the input $f$, starting value $n$ such that $0< r< n$ where $r$ is the root of the function and an error term $e$.
+
+The function will stop when it finds a value $v$ such that $|r-v|\leq e$.
+
+
+
+\begin{quote}
+\noindent $FunctionSolver$( $f,n,e$)
+\begin{enumerate}[1.]
+\item $lo = 0$
+\item $hi = n$
+\item $v=(hi+lo)/2$
+\item {\bf while} $hi-lo> 2e$:
+\item ~~~{\bf if} $f(v)=0$:
+\item ~~~~~~{\bf return} $v$
+\item ~~~{\bf if} $f(v)<0$:
+\item ~~~~~~$lo = v$
+\item ~~~{\bf if} $f(v)>0$:
+\item ~~~~~~$hi = v$
+\item ~~~$v=(hi+lo)/2$
+\item {\bf return} $v$
+\end{enumerate}
+\end{quote}
+
+
+\begin{enumerate}
+
+\item
+Trace through the algorithm on the input $FunctionSolver(x^2-x-1,4,0.0625)$.
+
+(you can handdraw the table)
+
+(Here is an example tracethrough of $FunctionSolver(e^x-1/x,2,0.0625)$:)
+
+\begin{quote}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+iteration&$hi-lo>2e$&$f(v)$&$f(v)\_\_0$&$lo$&$hi$&$v$\\
+\hline
+0&&&&$0$&$2$&$1$\\
+\hline
+1&TRUE&$1.72$&$>$&$0$&$1$&$0.5$\\
+\hline
+2&TRUE&$-0.35$&$<$&$0.5$&$1$&$0.75$\\
+\hline
+3&TRUE&$0.78$&$>$&$0.5$&$0.75$&$0.625$\\
+\hline
+4&TRUE&$0.27$&$>$&$0.5$&$0.625$&$0.5625$\\
+\hline
+5&FALSE&&&&&\\
+\end{tabular}
+
+{\bf return} $0.5625$
+
+\end{quote}
+
+\item
+A loop invariant for this algorithm is:
+\begin{center}
+\emph{After each iteration, $lo\leq r\leq hi$.}
+\end{center}
+
+Prove this loop invariant.
+
+\end{enumerate}
+
+\item (15 points)
+Consider the following sorting algorithm that takes a list of integers as an input and outputs a sorted list of those elements. (note, the MERGE subroutine is an algorithm we will talk about on Friday 11/7. All you need to know about MERGE is that it takes two sorted lists of integers and returns a sorted list of all the integers combined. If the size of the lists are $j$ and $k$, then the runtime of MERGE is $O(k+j)$.)
+
+\begin{quote}
+\emph{QueueSort}$(a_1,\dots,a_n)$
+\begin{enumerate}[1.]
+\item Initialize a queue Q of lists so that each element of the input is in a list all by itself.
+\item $Q = ([a_1],[a_2],\dots,[a_n])$
+\item {\bf while} $|Q|\geq 2$:
+\item ~~~~~ dequeue the first two lists from $Q$ and MERGE the two lists together.
+\item ~~~~~ enqueue the result into $Q$.
+\item {\bf return} $Q$
+\end{enumerate}
+\end{quote}
+\newpage
+
+Example: Sort the list: (10,8,3,2,8,7,6)
+
+\begin{align*}
+&&&([10],[8],[3],[2],[8],[7],[6])&\\
+&&MERGE([10],[8])\leftarrow&([3],[2],[8],[7],[6])&\\
+&&&([3],[2],[8],[7],[6])\leftarrow [8,10]\\
+&&&([3],[2],[8],[7],[6],[8,10])&\\
+&&MERGE([3],[2])\leftarrow&([8],[7],[6],[8,10])&\\
+&&&([8],[7],[6],[8,10])\leftarrow [2,3]\\
+&&&([8],[7],[6],[8,10],[2,3])&\\
+&&MERGE([8],[7])\leftarrow&([6],[8,10],[2,3])&\\
+&&&([6],[8,10],[2,3])\leftarrow [7,8]\\
+&&&([6],[8,10],[2,3],[7,8])&\\
+&&MERGE([6],[8,10])\leftarrow&([2,3],[7,8])&\\
+&&&([2,3],[7,8])\leftarrow [6,8,10]\\
+&&&([2,3],[7,8],[6,8,10])&\\
+&&MERGE([2,3],[7,8])\leftarrow&([6,8,10])&\\
+&&&([6,8,10])\leftarrow [2,3,7,8]\\
+&&&([6,8,10],[2,3,7,8])&\\
+&&MERGE([6,8,10],[2,3,7,8])\leftarrow&(~)&\\
+&&&(~)\leftarrow [2,3,6,7,8,8,10]\\
+&&&([2,3,6,7,8,8,10])&\\
+\end{align*}
+
+Consider the loop invariant:
+\begin{center}
+\emph{After each iteration, every list in $Q$ is sorted.}
+\end{center}
+
+\begin{enumerate}
+\item (6 points)
+Prove this loop invariant using induction.
+\begin{frame}{Proof}
+    For the base case, before the loop every list is a single element \(a_i\), which is already sorted.
+
+    Suppose every list in \(Q\) is sorted at the start of an iteration. The iteration dequeues two sorted lists and merges them using the MERGE function which guarantees to return a sorted list. That result then gets enqueued. The remaining lists are not touched so they are still sorted. Thus every list in \(Q\) is sorted after the iteration. By induction the invariant holds after every iteration.
+\end{frame}
+
+\item (3 points)
+Use the loop invariant to show that the algorithm is correct.
+
+\begin{frame}{Solution}
+    Each iteration dequeues two lists and enqueues one, so \(|Q|\) decreases exactly by 1 per iteration. 
+
+    Since \(|Q| = n\) at the start, the loop must terminate. The loop only stops when \(|Q|<2\). since \(|Q|\) starts at \(n \geq 1\) and drops by 1 each iteration, it stops exactly when \(|Q| = 1\). So the algorithm returns a single list.
+
+    MERGE only combines the elements of the two lists it is given, so no element is lost or added. This means that the final list contains every \(a_i\) exactly once.
+
+    By the loop invariant, every list in \(Q\) is sorted after each iteration. The final list is the only list in \(Q\), so it is sorted. Thus the algorithm returns a sorted list of all input elements, so it is correct.
+\end{frame}
+
+\item (3 points)
+Use the runtime method we learned in class (product rule for loops) to show that this algorithm runs in $O(n^2)$ time.
+
+\begin{frame}{Solution}
+    Each iteration dequeues two lists and enqueues one, so \(|Q|\) decreases by exactly 1 per iteration. Since \(|Q|\) starts at \(n\) and the loop stops when \(|Q| = 1\), the loop runs \(n-1\) times, which is \(O(n)\).
+
+    In each iteration the dequeues and enqueues take \(O(1)\) time. let \(j\) and \(k\) be the sizes of the two lists being merged. MERGE takes \(O(j+k)\) time. Since the lists in \(Q\) together contain exactly n elements, \(j+k \leq n\). So each MERGE  takes \(O(n)\) time, and each iteration takes \(O(n)\) time.
+
+    Thus by the product rule for loops, the total runtime is \(O(n) *O(n) = O(n^2)\).
+\end{frame}
+\item (3 points) Show that $O(n^2)$ is not a tight bound by doing a more careful analysis.
+
+\begin{frame}{Solution}
+    Suppose that \(n = 2^m\). Since \(Q\) is a queue, each merged list is enqueued behind the lists already in \(Q\), so the lists are merged in passes. First come the \(n/2\) merges producing lists of size 2, then \(n/4\) merges producing lists of size 4, and so on until 1 merge produces a list of size \(n\).
+
+    In pass \(r\), there are \(\frac{n}{2^r}\) merges, and each one produces a list of size \(2^r\). Since MERGE costs the size of the list it produces, each pass costs
+    
+    \[\frac{n}{2^r} * 2^r = n.\]
+
+    Each pass cuts the number of lists in half, starting at \(n\) and ending at 1, so there are \(\log_2 n\) passes. So the total runtime is
+    
+    \[n * \log_2 n,\]
+    which is \(O(n \log n)\).
+
+    Since \(\frac{n \log n}{n^2} = \frac{\log n}{n}\), and this goes to 0 as \(n\) approaches infinity, the runtime grows strictly slower than \(n^2\). So \(O(n^2)\) is not a tight bound.    
+    
+\end{frame}
+
+\end{enumerate}
+
+
+
+
+\item (12 points)
+For each algorithm, compute the exact number of times the algorithm prints in terms of $n$ and express this expression in terms of $\Theta$ (in simplest form), where $n \geq 3$. (We use the convention that if there is a for loop such that the starting value is greater than the ending value, then that loop does not run.)
+
+\begin{enumerate}
+
+\item
+\begin{quote}
+{\bf for} $i=1$ to $n$:\\
+.\ind{\bf for} $j=1$ to $n+i$:\\
+.\ind\ind {\bf print} $(i,j)$.
+\end{quote}
+\begin{frame}{Solution}
+For a fixed \(i\), the inner loop runs from \(j = 1\) to \(j = n+i\), so it prints \(n+i\) times. The outer loop runs once for each \(i\) from \(1\) to \(n\), so the total number of prints is
+
+\[\sum_{i=1}^{n} (n+i).\]
+
+Now if we do some simplification and arithmetic we get, 
+
+\[\sum_{i=1}^{n} n + \sum_{i=1}^{n} i = n^2 + \frac{n(n+1)}{2} = \frac{3n^2+n}{2},\]
+
+since adding \(n\) to itself \(n\) times gives \(n^2\). The leading term is \(\frac{3}{2}n^2\), so the total is \(\Theta(n^2)\).
+\end{frame}
+\item
+\begin{quote}
+{\bf for} $i=1$ to $n$:\\
+.\ind{\bf for} $j=2i$ to $2n$:\\
+.\ind\ind {\bf print} $(i,j)$.
+\end{quote}
+
+\begin{frame}{Solution}
+Looking at the inner loop it will run \(2n-2i+1\) times.
+
+Now summing the iterations of the inner loop over the outer loop, the total is.
+
+\[\sum_{i=1}^n (2n-2i+1) = \sum_{i=1}^n2n - \sum_{i=1}^n2i +\sum_{i=1}^n1\]
+
+Which will give us 
+
+\[2n^2-(n^2+n)+n=n^2\]
+
+Which is \(\Theta(n^2)\)
+
+
+\end{frame}
+
+\item
+\begin{quote}
+{\bf for} $i=1$ to $n-2$:\\
+.\ind{\bf for} $j=i+1$ to $n-1$:\\
+.\ind\ind{\bf for} $k=j+1$ to $n$:\\
+.\ind\ind\ind {\bf print} $(i,j,k)$
+\end{quote}
+
+\begin{frame}{Solution}
+Looking at the most inner loop, the index \(k\) runs from \(j+1\) to \(n\), so it prints \(n-(j+1)+1 = n-j\) times.
+
+Now if we look at the middle loop, for a fixed \(i\), \(j\) will run from \(i+1\) to \(n-1\). Each iteration of the inner loop prints \(n-j\) times, so the middle loop's total is
+\[
+\sum_{j=i+1}^{n-1}(n-j)
+\]
+
+Since \(n-j\) changes with \(j\), we cannot multiply. The first term when \(j=i+1\) is \(n-i-1\), and the last term when \(j=n-1\) is \(1\). Each time \(j\) goes up by \(1\), \(n-j\) goes down by \(1\), so the terms are
+\[
+(n-i-1)+(n-i-2)+...+2+1
+\]
+
+This is the sum of the integers from \(1\) to \(m\), where \(m = n-i-1\). This gives us
+\[
+\frac{m(m+1)}{2} = \frac{(n-i-1)(n-i)}{2}
+\]
+
+Now the outer loop runs \(i\) from \(1\) to \(n-2\), so the total number of prints is
+\[
+\sum_{i=1}^{n-2}\frac{(n-i-1)(n-i)}{2}
+\]
+
+Let \(t=n-i\). When \(i=1\), \(t=n-1\), and when \(i=n-2\), \(t=2\). So \(t\) runs from \(2\) to \(n-1\).
+
+Since \(t\) runs from \(2\) to \(n-1\), and the \(t=1\) term is \(0\), we can write
+\[
+\sum_{t=2}^{n-1} \frac{t(t-1)}{2} = \frac{1}{2}\left(\sum_{t=1}^{n-1} t^2 - \sum_{t=1}^{n-1} t\right).
+\]
+Using \(\sum_{t=1}^{m} t^2 = \frac{m(m+1)(2m+1)}{6}\) and \(\sum_{t=1}^{m} t = \frac{m(m+1)}{2}\) with \(m = n-1\), so that \(m+1 = n\) and \(2m+1 = 2n-1\):
+\[
+\frac{1}{2}\left(\frac{(n-1)n(2n-1)}{6} - \frac{(n-1)n}{2}\right).
+\]
+Factor out \(\frac{(n-1)n}{6}\), using \(\frac{(n-1)n}{2} = \frac{(n-1)n}{6} * 3\):
+\[
+= \frac{1}{2} * \frac{(n-1)n}{6} * \big((2n-1) - 3\big)
+= \frac{1}{2} * \frac{(n-1)n}{6} * 2(n-2)
+= \frac{n(n-1)(n-2)}{6}.
+\]
+So the total number of prints is.
+
+\[\frac{n(n-1)(n-2)}{6}\]
+
+If we look at the leading term it will be \(\frac{n^3}{6}\), so this will be \(\Theta(n^3)\)
+
+\end{frame}
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+\end{enumerate}
+
+\end{document}
