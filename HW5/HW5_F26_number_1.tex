@@ -1,0 +1,278 @@
+
+\documentclass[10pt,letterpaper,unboxed,cm]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{enumerate, comment}
+\usepackage{adjustbox}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\st}{~\mid~}
+\newcommand{\ind}{$~~~~~$}
+
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem*{solution}{Solution}
+
+
+
+\begin{document}
+
+\hfill{CSE 21 Fall 2026}
+
+\hfill{Homework 5}
+
+\hfill{Due date: Monday Nov 9, 2026 at 11:59pm}
+
+\begin{center}
+\begin{minipage}[t]{5.7in}
+\rule{\linewidth}{2pt}
+{\sc Instructions}\newline
+
+This homework should be done in {\bf groups} of one to four students, without assistance from anyone besides the instructional staff and your group members.  Homework must be submitted through Gradescope by a {\bf single representative} of your group and received by {\bf 11:59pm} on the due date. There are no exceptions to this rule.\\
+ 
+You will be able to look at your scanned work before submitting it. 
+ You must {\bf type} your solutions. (hand-drawn diagrams are okay.)
+ Your group representative can resubmit your assignment as many times as you like before the deadline. Only the most recent submission will be graded.\\
+
+Students should consult their textbook, class notes, lecture slides, podcasts, group members, instructors, TAs, and tutors when 
+they need help with homework. You may ask questions about the homework in office hours, but questions on Piazza should be private, visible only to instructors. 
+
+This assignment will be graded for not only the \emph{correctness} of your answers, but on your ability to present your ideas clearly and logically. You should explain or justify, present clearly how you arrived at your conclusions and justify the correctness of your answers with mathematically sound reasoning (unless explicitly told not to). Whether you use formal proof techniques or write a more informal argument for why something is true, your answers should always be well-supported. Your goal should be to {\bf convince the reader} that your results and methods are sound.
+
+
+
+
+
+
+{\sc Key Concepts} Sorting, searching, asymptotic notation, time analysis.
+
+
+
+\rule{\linewidth}{2pt}
+\end{minipage} \hfill
+
+\end{center}
+\newpage
+
+\begin{enumerate}
+
+
+
+\item (12 points)
+Let $f:\mathbb{R}\to \mathbb{R}$ be a continuous increasing function. Then we can use a version of binary search to solve for the ``root" of the function $f$ (value $x$ such that $f(x)=0$.) This algorithm will take the input $f$, starting value $n$ such that $0< r< n$ where $r$ is the root of the function and an error term $e$.
+
+The function will stop when it finds a value $v$ such that $|r-v|\leq e$.
+
+
+
+\begin{quote}
+\noindent $FunctionSolver$( $f,n,e$)
+\begin{enumerate}[1.]
+\item $lo = 0$
+\item $hi = n$
+\item $v=(hi+lo)/2$
+\item {\bf while} $hi-lo> 2e$:
+\item ~~~{\bf if} $f(v)=0$:
+\item ~~~~~~{\bf return} $v$
+\item ~~~{\bf if} $f(v)<0$:
+\item ~~~~~~$lo = v$
+\item ~~~{\bf if} $f(v)>0$:
+\item ~~~~~~$hi = v$
+\item ~~~$v=(hi+lo)/2$
+\item {\bf return} $v$
+\end{enumerate}
+\end{quote}
+
+
+\begin{enumerate}
+
+\item
+Trace through the algorithm on the input $FunctionSolver(x^2-x-1,4,0.0625)$.
+
+(you can handdraw the table)
+
+(Here is an example tracethrough of $FunctionSolver(e^x-1/x,2,0.0625)$:)
+
+\begin{quote}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+iteration&$hi-lo>2e$&$f(v)$&$f(v)\_\_0$&$lo$&$hi$&$v$\\
+\hline
+0&&&&$0$&$2$&$1$\\
+\hline
+1&TRUE&$1.72$&$>$&$0$&$1$&$0.5$\\
+\hline
+2&TRUE&$-0.35$&$<$&$0.5$&$1$&$0.75$\\
+\hline
+3&TRUE&$0.78$&$>$&$0.5$&$0.75$&$0.625$\\
+\hline
+4&TRUE&$0.27$&$>$&$0.5$&$0.625$&$0.5625$\\
+\hline
+5&FALSE&&&&&\\
+\end{tabular}
+
+{\bf return} $0.5625$
+
+\end{quote}
+\vspace{1em}
+\begin{solution}
+The solution looks like this:
+\par\vspace{1em}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+iteration & $hi-lo>2E$ & $f(v)$ & $f(v)=0$ & $lo$ & $hi$ & $v$ \\
+\hline
+0 & & & & 0 & 4 & 2 \\
+\hline
+1 & TRUE & 1 & $>$ & 0 & 2 & 1 \\
+\hline
+2 & TRUE & -1 & $<$ & 1 & 2 & 1.5 \\
+\hline
+3 & TRUE & -0.25 & $<$ & 1.5 & 2 & 1.75 \\
+\hline
+4 & TRUE & 0.3125 & $>$ & 1.5 & 1.75 & 1.625 \\
+\hline
+5 & TRUE & 0.015625 & $>$ & 1.5 & 1.625 & 1.5625 \\
+\hline
+6 & FALSE & & & & & \\
+\hline
+\end{tabular}
+
+{\bf return} $1.5625$\\
+
+\end{solution}
+
+\item
+A loop invariant for this algorithm is:
+\begin{center}
+\emph{After each iteration, $lo\leq r\leq hi$.}
+\end{center}
+
+Prove this loop invariant.
+
+\begin{solution}
+
+    We will use mathematical induction in order to prove this loop invariant.\\
+    Base case:\\
+    At the start of the loop the algorithm sets \(lo = 0 \text{ and } hi = n\).\\
+    Since value n is $0 < r < n$ as stated by the set up of the problem our condition $0 \leq r \leq n$ holds true.\\
+    Inductive case:\\
+    Let's assume that the invariant holds for some iteration where: \(lo \leq r \leq hi\).\\
+    Then the algorithm computes v using the following: \(v = \frac{hi + lo}{2}\).\\
+    We will prove that invariant still holds after we change lo or hi.\\
+    Let's seperate this into three different cases:\\
+    Case 1: f(v) = 0:\\
+    In this case we return v, and don't change anything so the invariant holds true.\\
+    Case 2: $f(v) < 0$:\\
+    In this case we know that v has to be less than r because f is a continuous function.\\
+    And since it is also increaing, f(v) being less than zero tells us that v is less than r.\\
+    This is because f(r) = 0, and on a continuous increasing function it is true that $v < r$.\\
+    That being said, we only updated the lo = v and since $v < r$ we are keeping the invariant $lo \leq r \leq hi$ true.\\
+    Case 3: $f(v) > 0$:\\
+    Applying the same logic as in case 2, on an increasing continuous function:\\
+    If $f(v) > 0$ and f(r) = 0, we know that $v > r$, since $f(v) > f(r)$.\\
+    Again, we are only updating hi = v, and if $v > r$, then now $hi = v > r$.\\
+    Since the invariant holds for all 3 cases we can conclude by induction that:\\
+    \begin{center}
+        $\boxed{lo \leq r \leq hi}$
+    \end{center}
+\end{solution}
+
+\end{enumerate}
+
+\item (15 points)
+Consider the following sorting algorithm that takes a list of integers as an input and outputs a sorted list of those elements. (note, the MERGE subroutine is an algorithm we will talk about on Friday 11/7. All you need to know about MERGE is that it takes two sorted lists of integers and returns a sorted list of all the integers combined. If the size of the lists are $j$ and $k$, then the runtime of MERGE is $O(k+j)$.)
+
+\begin{quote}
+\emph{QueueSort}$(a_1,\dots,a_n)$
+\begin{enumerate}[1.]
+\item Initialize a queue Q of lists so that each element of the input is in a list all by itself.
+\item $Q = ([a_1],[a_2],\dots,[a_n])$
+\item {\bf while} $|Q|\geq 2$:
+\item ~~~~~ dequeue the first two lists from $Q$ and MERGE the two lists together.
+\item ~~~~~ enqueue the result into $Q$.
+\item {\bf return} $Q$
+\end{enumerate}
+\end{quote}
+\newpage
+
+Example: Sort the list: (10,8,3,2,8,7,6)
+
+\begin{align*}
+&&&([10],[8],[3],[2],[8],[7],[6])&\\
+&&MERGE([10],[8])\leftarrow&([3],[2],[8],[7],[6])&\\
+&&&([3],[2],[8],[7],[6])\leftarrow [8,10]\\
+&&&([3],[2],[8],[7],[6],[8,10])&\\
+&&MERGE([3],[2])\leftarrow&([8],[7],[6],[8,10])&\\
+&&&([8],[7],[6],[8,10])\leftarrow [2,3]\\
+&&&([8],[7],[6],[8,10],[2,3])&\\
+&&MERGE([8],[7])\leftarrow&([6],[8,10],[2,3])&\\
+&&&([6],[8,10],[2,3])\leftarrow [7,8]\\
+&&&([6],[8,10],[2,3],[7,8])&\\
+&&MERGE([6],[8,10])\leftarrow&([2,3],[7,8])&\\
+&&&([2,3],[7,8])\leftarrow [6,8,10]\\
+&&&([2,3],[7,8],[6,8,10])&\\
+&&MERGE([2,3],[7,8])\leftarrow&([6,8,10])&\\
+&&&([6,8,10])\leftarrow [2,3,7,8]\\
+&&&([6,8,10],[2,3,7,8])&\\
+&&MERGE([6,8,10],[2,3,7,8])\leftarrow&(~)&\\
+&&&(~)\leftarrow [2,3,6,7,8,8,10]\\
+&&&([2,3,6,7,8,8,10])&\\
+\end{align*}
+
+Consider the loop invariant:
+\begin{center}
+\emph{After each iteration, every list in $Q$ is sorted.}
+\end{center}
+
+\begin{enumerate}
+\item (6 points)
+Prove this loop invariant using induction.
+\item (3 points)
+Use the loop invariant to show that the algorithm is correct.
+\item (3 points)
+Use the runtime method we learned in class (product rule for loops) to show that this algorithm runs in $O(n^2)$ time.
+\item (3 points) Show that $O(n^2)$ is not a tight bound by doing a more careful analysis.
+\end{enumerate}
+
+
+
+
+\item (12 points)
+For each algorithm, compute the exact number of times the algorithm prints in terms of $n$ and express this expression in terms of $\Theta$ (in simplest form), where $n \geq 3$. (We use the convention that if there is a for loop such that the starting value is greater than the ending value, then that loop does not run.)
+
+\begin{enumerate}
+
+\item
+\begin{quote}
+{\bf for} $i=1$ to $n$:\\
+.\ind{\bf for} $j=1$ to $n+i$:\\
+.\ind\ind {\bf print} $(i,j)$.
+\end{quote}
+
+\item
+\begin{quote}
+{\bf for} $i=1$ to $n$:\\
+.\ind{\bf for} $j=2i$ to $2n$:\\
+.\ind\ind {\bf print} $(i,j)$.
+\end{quote}
+
+
+\item
+\begin{quote}
+{\bf for} $i=1$ to $n-2$:\\
+.\ind{\bf for} $j=i+1$ to $n-1$:\\
+.\ind\ind{\bf for} $k=j+1$ to $n$:\\
+.\ind\ind\ind {\bf print} $(i,j,k)$
+\end{quote}
+
+
+\end{enumerate}
+
+
+
+
+
+\end{enumerate}
+
+\end{document}
