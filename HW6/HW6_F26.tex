@@ -1,0 +1,220 @@
+
+\documentclass[10pt,letterpaper,unboxed,cm]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{enumerate, comment}
+\usepackage{adjustbox}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\st}{~\mid~}
+\newcommand{\ind}{$~~~~~$}
+
+\newenvironment{solution}
+  {\par\medskip\noindent\textbf{Solution.}\ }
+  {\par\medskip}
+
+\begin{document}
+
+\hfill{CSE 21 Fall 2026}
+
+\hfill{Homework 6}
+
+\hfill{Due date: Monday November 16, 2026 at 11:59pm}
+
+\begin{center}
+\begin{minipage}[t]{5.7in}
+\rule{\linewidth}{2pt}
+{\sc Instructions}\newline
+
+This homework should be done in {\bf groups} of one to four students, without assistance from anyone besides the instructional staff and your group members.  Homework must be submitted through Gradescope by a {\bf single representative} of your group and received by {\bf 11:59pm} on the due date. There are no exceptions to this rule.\\
+ 
+You will be able to look at your scanned work before submitting it. 
+ You must {\bf type} your solutions. (hand-drawn diagrams are okay.)
+ Your group representative can resubmit your assignment as many times as you like before the deadline. Only the most recent submission will be graded.\\
+
+Students should consult their textbook, class notes, lecture slides, podcasts, group members, instructors, TAs, and tutors when 
+they need help with homework. You may ask questions about the homework in office hours, but questions on Piazza should be private, visible only to instructors. 
+
+This assignment will be graded for not only the \emph{correctness} of your answers, but on your ability to present your ideas clearly and logically. You should explain or justify, present clearly how you arrived at your conclusions and justify the correctness of your answers with mathematically sound reasoning (unless explicitly told not to). Whether you use formal proof techniques or write a more informal argument for why something is true, your answers should always be well-supported. Your goal should be to {\bf convince the reader} that your results and methods are sound.
+
+
+
+
+
+
+{\sc Key Concepts} Recursive algorithms, unraveling, master theorem.
+
+
+
+\rule{\linewidth}{2pt}
+\end{minipage} \hfill
+
+\end{center}
+
+\begin{enumerate}
+\item 
+\begin{enumerate}
+\item(5 points)
+Consider the recurrence relation:
+
+$H(0) = 0$\\
+$H(n) = 2H(n-1) + 2^{n-1}$ for $n\geq 1$.
+
+Use unraveling to solve for a closed form.
+
+\item(5 points)
+Consider the recurrence relation:
+
+$J(0) = 0$\\
+$J(n) = 6J(n-1) + 3$ for $n\geq 1$.
+
+Use unraveling to solve for a closed form.
+
+\end{enumerate}
+
+\item (12 points)
+Given an integer $x\geq 2$ this algorithm returns the value ${x \choose 2}$.
+
+\begin{quote}
+	$\mbox{\bf procedure} ~Choose2~(x : \mbox{ integer $\geq 2$} )$
+	\begin{enumerate}[1.~~~~~~]
+		\item {\bf if} $x == 2$:
+		\item ~~~~~{\bf return} $1$
+		\item {\bf if} $x$ is odd:
+		\item ~~~~~{\bf return} $Choose2(x-1)$ + $(x-1)$
+		\item {\bf if} $x$ is even:
+		\item ~~~~~{\bf return} $(x/2)^2 + 2*Choose2(x/2)$
+		
+	\end{enumerate} 
+\end{quote}
+
+\begin{enumerate}[(a.)]
+\item
+Prove \emph{Choose2} correctly returns ${x\choose 2}$ for any input $x\geq 2$.
+
+	\item Assuming that $x = 2^k$ for some integer $k\geq 0$. In terms of $k$, how many recursive calls are necessary to reduce $x$ down to 0 (base case)? (the first call of the function does not count as a recursive call.)
+	
+
+	\item Assuming that $x = 2^k - 1$ for some integer $k\geq 0$. In terms of $k$, how many recursive calls are necessary to reduce $x$ down to 0 (base case)? (the first call of the function does not count as a recursive call.) 
+	
+\end{enumerate}
+
+
+
+\item
+(9 points) For each situation below, first give the recurrence for the runtime of the algorithm (no explanation for this part.) Then use the Master Theorem, if possible, and give the values for $a$ $b$ and $d$ and the $O$ bound.
+
+\begin{enumerate}
+\item
+Suppose an algorithm solves a problem of size $n$ by recursively calling $2$ subproblems each of size $2n/3$. Then the non-recursive part of the algorithm takes $O(n)$ time.
+
+\begin{solution}
+
+	Let T(n) be the time needed to solve a problem of size n.\\
+	If each subproblem takes T(2n/3) then calling two of them takes 2*T(2n/3).\\
+	Since the non-recursive part takes O(n) we can add it to the two subproblems:\\
+	T(n) = 2*T(2n/3) + O(n)\\
+	From this we can extract that:\\
+	a = 2, b = 3/2, d = 1.\\
+	Now we compare a and $b^d = (\frac{3}{2})^1 = \frac{3}{2}$, and we clearly see that: $a > b^d$.\\
+	So we use the third case of the Master Theorem. Therefore, $\boxed{T(n) = O(n^{log_{3/2}2})}$.\\
+
+\end{solution}
+
+\item
+Suppose an algorithm solves a problem of size $n$ by recursively calling $3$ subproblems each of size $n/8$. Then the non-recursive part of the algorithm takes $O(\sqrt{n})$ time.
+
+\begin{solution}
+
+	In this case we use the same approach as in part a:\\
+	3 subproblems of size n/8: T(n) = 3*T(n/8).\\
+	Add the non-recursive part: T(n) = 3*T(n/8) + O($\sqrt{n}$).\\
+	Here: a = 3, b = 8, d = 1/2.\\
+	Now, $b^d = \sqrt{8} \approx 2.828$, so we apply the third row of the Master Theorem:\\
+	$\boxed{T(n) = O(n^{log_8{3}})}$.
+
+\end{solution}
+
+\item
+Suppose an algorithm solves a problem of size $n$ by recursively calling $3$ subproblems each of size $n/9$. Then the non-recursive part of the algorithm takes $O(n^2)$ time.
+
+\begin{solution}
+	
+	Applying the same logic:\\
+	T(n) = 3*T(n/9) + O($n^2$).\\
+	Here: a = 3, b = 9, d = 2.\\
+	Then, $b^d = 9^2 = 81$.\\
+	Since $a < b^d$, first row applies:\\
+	$\boxed{T(n) = O(n^2)}$.
+ 
+\end{solution}
+
+\end{enumerate}
+
+	\item (15 points)
+Recall the algorithm for SelectionSort from class:
+
+\emph{SelectionSort}$(a[1],\dots,a[n])$:
+\begin{enumerate}[1.]
+\item {\bf for} $i=1,\dots,n-1$:
+\item \ind $a[m] = minimum(a[i],a[i+1],\dots,a[n])$
+\item \ind interchange $a[m]$ and $a[i]$
+\end{enumerate}
+
+\begin{enumerate}
+\item
+
+Design a \emph{recursive} algorithm that will sort a list that is based on SelectionSort.
+
+\begin{solution}
+	
+	RecursiveSelectionSort(a[1], $\dots$, a[n]):\\
+	1. if n $\leq$ 1:\\
+	2. \hspace*{2em}return a\\
+	3. a[m] = minimum(a[1], a[2], $\dots$, a[n])\\
+	4. interchange a[m] and a[1]\\
+	5. RecursiveSelectionSort(a[2], $\dots$, a[n])\\
+	It's important to understand here that the call RecursiveSelectionSort(a[2],...,a[n]) passes the smaller portion of the same array with each iteration, keeping the sorted elements untouched and not passed to the next recursive iteration.
+
+\end{solution}
+
+\item
+Let $T(n)$ be the runtime of your algorithm for an input of size $n$. Write a recurrence for the runtime in terms of $T(n)$ and find the asymptotic runtime in Big-$\Theta$ notation. (Note: finding the minimum of a list of length $n$ takes $\Theta(n)$ time.
+
+\begin{solution}
+	
+	Finding the minimum takes $\Theta(n)$ and swapping a[m] and a[1] takes $\Theta(1)$, while sorting the rest of the elements takes T(n-1), so we have:\\
+	\(T(n) = T(n - 1) + \Theta(n) + \Theta(1)\).\\
+	But the constant gets absorbed so: \(T(n) = T(n - 1) + \Theta(n)\).\\
+	We can now unravel the recurrence this way:\\
+	\(T(n) = \Theta(n + (n - 1) + \dots + 2 + 1) = \Theta(n^2)\).\\
+	Consider base cases: $T(0) = T(1) = \Theta(1)$.\\
+	Therefore:\\
+	\(\boxed{T(n) = \Theta(n^2)}\).
+
+\end{solution}
+
+\item
+Write a proof of correctness of your recursive algorithm
+
+\begin{solution}
+	
+	We use strong induction:\\
+	Base case:\\
+	If $n \leq 1$ the algorithm returns the array as is, a list that contains only one element or less is already sorted.\\
+	Inductive hypothesis:\\
+	Assume that the algorithm correctly sorts every list of size smaller than n.\\
+	Inductive step:\\
+	Consider a list of size $n > 1$.\\
+	The algorithm looks for the smallest item in the entire list and puts it first. The first element now can not be bigger than any other element in the list.\\
+	Then, recursively, it sorts the rest of the list (n - 1 elements), and since $n > n - 1$ the inductive hypothesis makes sure that the rest of the list is being properly sorted while preserving all elements of the list.\\
+	Swapping and recursively rearranging elements preserves all original elements.\\
+	Now, first element is sorted, untouched and the rest of the list is preserved and sorted, then the entire list is sorted.\\ 
+	Conclusion: By strong induction the algorithm correctly sorts every list.
+
+\end{solution}
+
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
